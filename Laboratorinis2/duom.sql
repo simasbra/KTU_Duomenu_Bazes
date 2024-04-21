@@ -52,11 +52,12 @@ CREATE TABLE Weather_Forecasts (
 );
 
 CREATE TABLE Time_Stamps (
-    id_Time_Stamp SERIAL PRIMARY KEY,
+    id_Time_Stamp int NOT NULL AUTO_INCREMENT,
     Date date NOT NULL,
     Time time NOT NULL,
     fk_Weather_ForecastCode varchar(20) NOT NULL,
     fk_Weather_ForecastDate date NOT NULL,
+    PRIMARY KEY (id_Time_Stamp),
     FOREIGN KEY (fk_Weather_ForecastCode, fk_Weather_ForecastDate) REFERENCES Weather_Forecasts (Code, Date)
 );
 
