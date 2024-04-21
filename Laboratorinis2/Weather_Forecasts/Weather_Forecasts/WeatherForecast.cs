@@ -1,4 +1,4 @@
-namespace ASP.NETCoreWebApplication1;
+namespace Weather_Forecasts;
 
 public class WeatherForecast
 {

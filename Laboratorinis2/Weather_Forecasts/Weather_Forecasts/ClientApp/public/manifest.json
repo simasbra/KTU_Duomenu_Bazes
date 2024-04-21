@@ -1,6 +1,6 @@
 {
-  "short_name": "ASP.NETCoreWebApplication1",
-  "name": "ASP.NETCoreWebApplication1",
+  "short_name": "Weather_Forecasts",
+  "name": "Weather_Forecasts",
   "icons": [
     {
       "src": "favicon.ico",

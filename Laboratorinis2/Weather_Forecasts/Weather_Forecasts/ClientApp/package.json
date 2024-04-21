@@ -1,5 +1,5 @@
 {
-  "name": "asp.netcorewebapplication1",
+  "name": "weather_forecasts",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

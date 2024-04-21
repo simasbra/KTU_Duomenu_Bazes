@@ -3,15 +3,15 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:32997",
-      "sslPort": 44321
+      "applicationUrl": "http://localhost:2751",
+      "sslPort": 44327
     }
   },
   "profiles": {
-    "ASP.NETCoreWebApplication1": {
+    "Weather_Forecasts": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:7197;http://localhost:5160",
+      "applicationUrl": "https://localhost:7022;http://localhost:5273",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.SpaProxy"
