@@ -16,8 +16,8 @@ CREATE TABLE Cities (
     Name varchar(50) NOT NULL,
     Country varchar(100) NOT NULL,
     Population int NOT NULL,
-    Latitude decimal(8,6) NOT NULL,
-    Longitude decimal(8,6) NOT NULL,
+    Latitude decimal(9,6) NOT NULL,
+    Longitude decimal(9,6) NOT NULL,
     Elevation int NOT NULL,
     Average_annual_temperature decimal(4,2) NOT NULL,
     Average_annual_precipitation int NOT NULL,
@@ -29,13 +29,23 @@ CREATE TABLE Cities (
 CREATE TABLE Weather_Stations (
     Code varchar(20) NOT NULL PRIMARY KEY,
     Managing_organization varchar(100) NOT NULL,
-    Latitude decimal(8,6) NOT NULL,
-    Longitude decimal(8,6) NOT NULL,
+    Latitude decimal(9,6) NOT NULL,
+    Longitude decimal(9,6) NOT NULL,
     Elevation int NOT NULL,
     Type varchar(20) NOT NULL,
     fk_CityName varchar(50) NOT NULL,
     fk_CityCountry varchar(100) NOT NULL,
     FOREIGN KEY (fk_CityName, fk_CityCountry) REFERENCES Cities (Name, Country)
+);
+
+CREATE TABLE Operational_Statuses (
+    Date_from date NOT NULL,
+    Date_to date NULL,
+    Status boolean NOT NULL,
+    id_Operational_Status integer NOT NULL AUTO_INCREMENT,
+    fk_Weather_StationCode varchar(20) NOT NULL,
+    PRIMARY KEY (id_Operational_Status, fk_Weather_StationCode),
+    CONSTRAINT Has FOREIGN KEY (fk_Weather_StationCode) REFERENCES Weather_Stations (Code)
 );
 
 CREATE TABLE Weather_Forecasts (
@@ -49,6 +59,19 @@ CREATE TABLE Weather_Forecasts (
     PRIMARY KEY (Code, Date),
     FOREIGN KEY (fk_CityName, fk_CityCountry) REFERENCES Cities (Name, Country),
     FOREIGN KEY (fk_Weather_StationCode) REFERENCES Weather_Stations (Code)
+);
+
+CREATE TABLE Records (
+    Date date NOT NULL,
+    Location varchar(50) NOT NULL,
+    Maximum_temperature decimal(4,2) NULL,
+    Minimum_temperature decimal(4,2) NULL,
+    Maximum_precipitation int NULL,
+    Maximum_wind_speed decimal(5,2) NULL,
+    fk_Weather_ForecastCode varchar(20) NOT NULL,
+    fk_Weather_ForecastDate date NOT NULL,
+    PRIMARY KEY (Date, Location),  -- Composite primary key
+    CONSTRAINT Recorded FOREIGN KEY (fk_Weather_ForecastCode, fk_Weather_ForecastDate) REFERENCES Weather_Forecasts (Code, Date)
 );
 
 CREATE TABLE Time_Stamps (
@@ -129,7 +152,7 @@ CREATE TABLE Sunlight (
 );
 
 CREATE TABLE Moonlight (
-    id_Moonlight SERIAL PRIMARY KEY,
+    id_Sunglight SERIAL PRIMARY KEY,
     MoonRise time NOT NULL,
     MoonSet time NOT NULL,
     Phase varchar(20) NOT NULL,
