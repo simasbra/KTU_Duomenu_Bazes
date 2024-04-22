@@ -10,6 +10,6 @@ public class City
     public int Elevation { get; set; }
     public decimal AverageAnnualTemperature { get; set; }
     public int AverageAnnualPrecipitation { get; set; }
-    public DateTime Founding_date { get; set; }
+    public DateTime FoundingDate { get; set; }
     public int TimeZone { get; set; }
 }
