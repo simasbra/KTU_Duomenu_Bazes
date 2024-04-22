@@ -4,7 +4,7 @@ using Weather_Forecasts.Models;
 
 public class WeatherStationRepository
 {
-    public static List<WeatherStation> GetList()
+    public List<WeatherStation> GetList()
     {
         var query = "SELECT * FROM `Weather_Stations` ORDER BY Code ASC";
         var drc = Sql.Query(query);

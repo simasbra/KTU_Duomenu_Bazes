@@ -4,7 +4,7 @@ using Weather_Forecasts.Models;
 
 public class CloudinessRepository
 {
-    public static List<Cloudiness> GetList()
+    public List<Cloudiness> GetList()
     {
         var query = "SELECT * FROM `Cloudiness` ORDER BY id_Cloudiness DESC";
         var drc = Sql.Query(query);

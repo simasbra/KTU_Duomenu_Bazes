@@ -4,7 +4,7 @@ using Weather_Forecasts.Models;
 
 public class WeatherForecastRepository
 {
-    public static List<WeatherForecast> GetList()
+    public List<WeatherForecast> GetList()
     {
         var query = "SELECT * FROM `Weather_Forecasts` ORDER BY Date DESC";
         var drc = Sql.Query(query);

@@ -4,7 +4,7 @@ using Weather_Forecasts.Models;
 
 public class TemperaturesRepository
 {
-    public static List<Temperature> GetList()
+    public List<Temperature> GetList()
     {
         var query = "SELECT * FROM `Temperatures` ORDER BY id_Temperature ASC";
         var drc = Sql.Query(query);

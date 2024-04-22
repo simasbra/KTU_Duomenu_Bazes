@@ -4,7 +4,7 @@ using Weather_Forecasts.Models;
 
 public class CityRepository
 {
-    public static List<City> GetList()
+    public List<City> GetList()
     {
         var query = "SELECT * FROM `Cities` ORDER BY Name ASC, Country ASC";
         var drc = Sql.Query(query);

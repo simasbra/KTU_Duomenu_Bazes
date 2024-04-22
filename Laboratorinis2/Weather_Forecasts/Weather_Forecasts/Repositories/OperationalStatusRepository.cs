@@ -4,7 +4,7 @@ using Weather_Forecasts.Models;
 
 public class OperationalStatusesRepository
 {
-    public static List<OperationalStatus> GetList()
+    public List<OperationalStatus> GetList()
     {
         var query = "SELECT * FROM `Operational_Statuses` ORDER BY id_Operational_Status ASC";
         var drc = Sql.Query(query);

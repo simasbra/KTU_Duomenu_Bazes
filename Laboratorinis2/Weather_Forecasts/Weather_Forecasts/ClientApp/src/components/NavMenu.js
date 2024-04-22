@@ -39,9 +39,10 @@ const Navbar = styled.div`
     align-items: center;
     justify-content: space-between;
     z-index: 1000;
+    
     @media (min-width: 768px) {
-    padding: 0 5%;
-        }
+        padding: 0 5%;
+    }
 `;
 
 const NavList = styled.ul`
@@ -51,7 +52,6 @@ const NavList = styled.ul`
     height: 100%;
     margin: 0;
     background-color: inherit;
-    padding: 0 5%;
 
     @media (max-width: 768px) {
         white-space: normal;
@@ -77,6 +77,7 @@ const StyledLink = styled(NavLink)`
     width: 100%;
     height: 100%;
     padding: 10px 15px;
+    font-weight: 600;
 
     &:hover {
         background-color: lightgrey;

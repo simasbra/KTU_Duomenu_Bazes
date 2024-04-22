@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Container } from 'reactstrap';
 import { NavMenu } from './NavMenu';
+import styled from "styled-components";
 
 export class Layout extends Component {
   static displayName = Layout.name;
@@ -16,3 +16,8 @@ export class Layout extends Component {
     );
   }
 }
+
+const Container = styled.div`
+    padding: 10px 20px;
+    margin: 50px 5%;
+`;

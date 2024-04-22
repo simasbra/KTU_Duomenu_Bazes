@@ -4,7 +4,7 @@ using Weather_Forecasts.Models;
 
 public class RecordRepository
 {
-    public static List<Record> GetList()
+    public List<Record> GetList()
     {
         var query = "SELECT * FROM `Records` ORDER BY Date ASC, Location ASC";
         var drc = Sql.Query(query);

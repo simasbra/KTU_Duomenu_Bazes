@@ -4,7 +4,7 @@ using Weather_Forecasts.Models;
 
 public class TimeStampsRepository
 {
-    public static List<TimeStamp> GetList()
+    public List<TimeStamp> GetList()
     {
         var query = "SELECT * FROM `Time_Stamps` ORDER BY id_Time_Stamp ASC";
         var drc = Sql.Query(query);

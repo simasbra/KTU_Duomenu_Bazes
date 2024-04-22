@@ -4,7 +4,7 @@ using Weather_Forecasts.Models;
 
 public class MoonlightRepository
 {
-    public static List<Moonlight> GetList()
+    public List<Moonlight> GetList()
     {
         var query = "SELECT * FROM `Moonlights` ORDER BY id_Sunglight DESC";
         var drc = Sql.Query(query);
