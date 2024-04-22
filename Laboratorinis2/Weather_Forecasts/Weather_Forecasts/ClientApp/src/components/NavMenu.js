@@ -6,11 +6,12 @@ export class NavMenu extends Component {
     render() {
         return (
             <Navbar>
-                <NavLogo src="https://www.svgrepo.com/show/310222/weather-partly-cloudy-day.svg" alt="logo"/>
-                <NavTitle>Weather Forecasts</NavTitle>
                 <NavList>
                     <NavItem>
-                        <StyledLink to="/" exact>Home</StyledLink>
+                        <StyledLink to="/">
+                            <NavLogo src="https://www.svgrepo.com/show/310222/weather-partly-cloudy-day.svg" alt="logo"/>
+                            <NavTitle>Weather Forecasts</NavTitle>
+                        </StyledLink>
                     </NavItem>
                     <NavItem>
                         <StyledLink to="/cities">Cities</StyledLink>
@@ -38,7 +39,9 @@ const Navbar = styled.div`
     align-items: center;
     justify-content: space-between;
     z-index: 1000;
+    @media (min-width: 768px) {
     padding: 0 5%;
+        }
 `;
 
 const NavList = styled.ul`
@@ -47,9 +50,16 @@ const NavList = styled.ul`
     width: 100%;
     height: 100%;
     margin: 0;
-    white-space: nowrap;
     background-color: inherit;
     padding: 0 5%;
+
+    @media (max-width: 768px) {
+        white-space: normal;
+    }
+
+    @media (min-width: 768px) {
+        white-space: nowrap;
+    }
 `;
 
 const NavItem = styled.li`
@@ -91,6 +101,9 @@ const NavTitle = styled.h5`
     background-color: inherit;
     width: 100px;
     color: black;
-    margin: 0;
-    margin: 0 5px
+    margin: 0 5px;
+    white-space: normal;
+    @media (max-width: 768px) {
+        display: none;
+    }
 `;
