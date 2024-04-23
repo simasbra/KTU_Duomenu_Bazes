@@ -23,12 +23,21 @@ export function CityList() {
     }, []);
     
     const handleEdit = (city) => {
-        console.log('Edit', city);
         navigate(`/cities/${city.name}/edit`, { state: { city } });
     }
-    
+
     const handleDelete = (city) => {
-        console.log('Delete', city);
+        if (window.confirm(`Are you sure you want to delete ${city.name}?`)) {
+            axios.delete(`api/city/${encodeURIComponent(city.name)}/${encodeURIComponent(city.country)}`)
+                .then(response => {
+                    alert('City deleted successfully');
+                    setCities(cities.filter(c => c.name !== city.name || c.country !== city.country));
+                })
+                .catch(error => {
+                    console.error('Failed to delete the city', error);
+                    alert('Failed to delete the city');
+                });
+        }
     }
     
     return (

@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Weather_Forecasts.Models;
 
 public class City
@@ -10,6 +12,9 @@ public class City
     public int Elevation { get; set; }
     public decimal AverageAnnualTemperature { get; set; }
     public int AverageAnnualPrecipitation { get; set; }
+
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
     public DateTime FoundingDate { get; set; }
     public int TimeZone { get; set; }
 }

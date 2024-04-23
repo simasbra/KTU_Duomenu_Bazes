@@ -47,11 +47,12 @@ export const Table = styled.table`
         border-bottom: 1px solid #ddd;
         padding: 4px 8px;
         text-align: left;
-        max-width: fit-content;
     }
+
     td {
         white-space: nowrap;
     }
+
     th {
         white-space: normal;
     }

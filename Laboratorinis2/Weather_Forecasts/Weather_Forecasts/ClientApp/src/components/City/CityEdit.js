@@ -40,7 +40,7 @@ export function CityEdit() {
             <Label>Time Zone</Label>
             <Input type="text" value={city?.timeZone}></Input>
             <Actions>
-                <Button>Save</Button>
+                <Button onClick={() => handleSave()}>Save</Button>
                 <Button onClick={() => handleCancel()}>Cancel</Button>
             </Actions>
         </Container>
