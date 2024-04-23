@@ -1,12 +1,12 @@
-namespace Weather_Forecasts.Repositories;
-
 using Weather_Forecasts.Models;
+
+namespace Weather_Forecasts.Repositories;
 
 public class CityRepository
 {
     public List<City> GetList()
     {
-        var query = "SELECT * FROM `Cities` ORDER BY Name ASC, Country ASC";
+        var query = "SELECT * FROM `Cities` ORDER BY Name ASC";
         var drc = Sql.Query(query);
         
         var result = Sql.MapAll<City>(drc, (dre, e) =>

@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Weather_Forecasts.Models;
 using Weather_Forecasts.Repositories;
 
 namespace Weather_Forecasts.Controllers;

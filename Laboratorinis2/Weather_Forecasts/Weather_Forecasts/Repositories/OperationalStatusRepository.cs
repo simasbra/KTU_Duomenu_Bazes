@@ -1,6 +1,6 @@
-namespace Weather_Forecasts.Repositories;
-
 using Weather_Forecasts.Models;
+
+namespace Weather_Forecasts.Repositories;
 
 public class OperationalStatusesRepository
 {

@@ -1,5 +1,6 @@
-import { Home } from "./components/Home";
+import { Home } from './components/Home';
 import { CityList } from "./components/City/CityList";
+import { CityEdit } from "./components/City/CityEdit";
 
 const AppRoutes = [
     {
@@ -10,6 +11,10 @@ const AppRoutes = [
     {
         path: "/cities",
         element: <CityList/>
+    },
+    {
+        path: "/cities/:name/edit",
+        element: <CityEdit/>
     },
     {
         path: "*",

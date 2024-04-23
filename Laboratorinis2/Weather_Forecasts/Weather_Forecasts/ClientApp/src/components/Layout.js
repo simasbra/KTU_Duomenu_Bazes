@@ -20,4 +20,10 @@ export class Layout extends Component {
 const Container = styled.div`
     padding: 10px 20px;
     margin: 50px 5%;
+    overflow-x: clip;
+    align-content: center;
+    
+    @media (max-width: 1536px) {
+        margin: 50px 0;
+    }
 `;

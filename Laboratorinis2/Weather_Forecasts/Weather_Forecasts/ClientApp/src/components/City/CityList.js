@@ -1,13 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import axios from 'axios';
+import axios from '../../axiosConfig';
+import { Button, DeleteButton, Actions, Table } from '../Components';
 
 export function CityList() {
     const [cities, setCities] = useState([]);
+    const navigate = useNavigate();
     
     useEffect(() => {
         const fetchCities = () => {
-            axios.get('https://localhost:7022/api/city')
+            axios.get('api/city')
                 .then(response => {
                     setCities(response.data);
                 })
@@ -19,6 +22,15 @@ export function CityList() {
         fetchCities();
     }, []);
     
+    const handleEdit = (city) => {
+        console.log('Edit', city);
+        navigate(`/cities/${city.name}/edit`, { state: { city } });
+    }
+    
+    const handleDelete = (city) => {
+        console.log('Delete', city);
+    }
+    
     return (
         <Container>
             <Table>
@@ -29,12 +41,12 @@ export function CityList() {
                     <th>Population</th>
                     <th>Latitude</th>
                     <th>Longitude</th>
-                    <th>Elevation</th>
+                    <th>Elevation (m)</th>
                     <th>Avg Temp (°C)</th>
-                    <th>Avg Precipitation (mm)</th>
+                    <th>Avg Precip (mm)</th>
                     <th>Founding Date</th>
-                    <th>Time Zone</th>
-                    <th>Actions</th>
+                    <th>Time Zone (UTC)</th>
+                    <th style={{textAlign: 'center'}}>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -52,8 +64,8 @@ export function CityList() {
                         <td>{city.timeZone}</td>
                         <td>
                             <Actions>
-                                <Button>Edit</Button>
-                                <Button>Delete</Button>
+                                <Button onClick={() => handleEdit(city)}>Edit</Button>
+                                <DeleteButton onClick={() => handleDelete(city)}>Delete</DeleteButton>
                             </Actions>
                         </td>
                     </tr>
@@ -70,36 +82,4 @@ export default CityList;
 const Container = styled.div`
     padding: 0 10px;
     margin: 0;
-`;
-
-const Table = styled.table`
-    width: 100%;
-    border-collapse: collapse;
-
-    th, td {
-        border: 1px solid #ddd;
-        padding: 8px;
-        text-align: left;
-    }
-
-    th {
-        background-color: #f4f4f4;
-    }
-`;
-
-const Actions = styled.div`
-    display: flex;
-    gap: 10px;
-`;
-
-const Button = styled.button`
-    padding: 5px 10px;
-    border: none;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
-
-    &:hover {
-        background-color: #0056b3;
-    }
 `;
