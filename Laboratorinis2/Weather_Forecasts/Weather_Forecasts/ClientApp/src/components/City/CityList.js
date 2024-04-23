@@ -1,21 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+
 export function CityList() {
     const [cities, setCities] = useState([]);
 
-    useEffect(() => {
-        fetchCities();
-    }, []);
-
-    const fetchCities = async () => {
-        try {
-            const response = await axios.get('/cities');
+    axios.get('api/city')
+        .then(response => {
             setCities(response.data);
-        } catch (error) {
+        })
+        .catch(error => {
             console.error('Failed to fetch cities', error);
-        }
-    };
+        });
+
 
     return (
         <Container>

@@ -5,12 +5,12 @@ using Weather_Forecasts.Repositories;
 namespace Weather_Forecasts.Controllers;
 
 [ApiController]
-[Route("[controller]")]
-public class CitiesController : ControllerBase
+[Route("api/[controller]")]
+public class CityController : ControllerBase
 {
     private readonly CityRepository _cityRepository;
 
-    public CitiesController()
+    public CityController()
     {
         _cityRepository = new CityRepository();
     }
@@ -18,6 +18,13 @@ public class CitiesController : ControllerBase
     [HttpGet]
     public IActionResult GetCities()
     {
-        return Ok(_cityRepository.GetList());
+        Console.WriteLine("Received request for cities");
+        var cities = _cityRepository.GetList();
+        if (cities == null || cities.Count == 0)
+        {
+            return NotFound("No cities found.");
+        }
+
+        return Ok(cities);
     }
 }
