@@ -1,6 +1,9 @@
+using Weather_Forecasts;
 using Weather_Forecasts.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
+
+Config.CreateSingletonInstance(builder.Configuration);
 
 // Add CORS configuration
 builder.Services.AddCors(options =>
@@ -16,7 +19,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddScoped<CityRepository>();
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -30,17 +33,14 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
+// Enable CORS policy
 app.UseCors("AllowWebApp");
 
+// Authorization middleware
 app.UseAuthorization();
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllerRoute(
-        name: "default",
-        pattern: "{controller}/{action=Index}/{id?}");
-    endpoints.MapControllers();
-});
+// Map controller routes
+app.MapControllers();
 
 app.MapFallbackToFile("index.html");
 

@@ -4,16 +4,21 @@ import axios from 'axios';
 
 export function CityList() {
     const [cities, setCities] = useState([]);
+    
+    useEffect(() => {
+        const fetchCities = () => {
+            axios.get('https://localhost:7022/api/city')
+                .then(response => {
+                    setCities(response.data);
+                })
+                .catch(error => {
+                    console.error('Failed to fetch cities', error);
+                });
+        };
 
-    axios.get('api/city')
-        .then(response => {
-            setCities(response.data);
-        })
-        .catch(error => {
-            console.error('Failed to fetch cities', error);
-        });
-
-
+        fetchCities();
+    }, []);
+    
     return (
         <Container>
             <Table>
@@ -34,17 +39,17 @@ export function CityList() {
                 </thead>
                 <tbody>
                 {cities.map((city) => (
-                    <tr key={city.Name + city.Country}>
-                        <td>{city.Name}</td>
-                        <td>{city.Country}</td>
-                        <td>{city.Population}</td>
-                        <td>{city.Latitude.toFixed(6)}</td>
-                        <td>{city.Longitude.toFixed(6)}</td>
-                        <td>{city.Elevation}</td>
-                        <td>{city.AverageAnnualTemperature}</td>
-                        <td>{city.AverageAnnualPrecipitation}</td>
-                        <td>{city.FoundingDate.substring(0, 10)}</td>
-                        <td>{city.TimeZone}</td>
+                    <tr key={city.name + city.country}>
+                        <td>{city.name}</td>
+                        <td>{city.country}</td>
+                        <td>{city.population}</td>
+                        <td>{city.latitude.toFixed(6)}</td>
+                        <td>{city.longitude.toFixed(6)}</td>
+                        <td>{city.elevation}</td>
+                        <td>{city.averageAnnualTemperature}</td>
+                        <td>{city.averageAnnualPrecipitation}</td>
+                        <td>{city.foundingDate.substring(0, 10)}</td>
+                        <td>{city.timeZone}</td>
                         <td>
                             <Actions>
                                 <Button>Edit</Button>

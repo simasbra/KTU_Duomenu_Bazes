@@ -18,7 +18,7 @@ public class CityController : ControllerBase
     [HttpGet]
     public IActionResult GetCities()
     {
-        Console.WriteLine("Received request for cities");
+        Console.WriteLine(DateTime.Now + " Received request for cities");
         var cities = _cityRepository.GetList();
         if (cities == null || cities.Count == 0)
         {
