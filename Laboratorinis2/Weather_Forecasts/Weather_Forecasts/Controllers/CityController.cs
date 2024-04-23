@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Weather_Forecasts.Models;
 using Weather_Forecasts.Repositories;
 
 namespace Weather_Forecasts.Controllers;
@@ -26,21 +27,22 @@ public class CityController : ControllerBase
 
         return Ok(cities);
     }
-
-    // [HttpGet]
-    // public ActionResult Delete(string name, string country)
-    // {
-    //     var city = _cityRepository.Find(name, country);
-    //     if (city == null)
-    //     {
-    //         return NotFound("City not found.");
-    //     }
-    //
-    //     return Ok(city);
-    // }
-
     
-    [HttpPost]
+    [HttpPut("{name}/{country}")]
+    public IActionResult UpdateCity([FromBody] City city)
+    {
+        Console.WriteLine(DateTime.Now + " UpdateCity called.");
+        try
+        {
+            _cityRepository.Update(city);
+            return Ok("City updated successfully.");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Internal server error: " + ex.Message);
+        }
+    }
+
     [HttpDelete("{name}/{country}")]
     public IActionResult DeleteCity(string name, string country)
 

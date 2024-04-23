@@ -3,14 +3,35 @@ import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { Button, Actions, Input } from '../Components';
+import axios from '../../axiosConfig';
 
 export function CityEdit() {
     const navigate = useNavigate();
     const location = useLocation();
-    const city = location.state?.city;
-    
-    const handleSave = () => {
-        console.log('Save', city);
+    const [city, setCity] = React.useState(location.state?.city);
+
+    const handleSave = (city) => {
+        if (window.confirm(`Are you sure you want to save ${city.name}?`)) {
+            axios.put(`api/city/${encodeURIComponent(city.name)}/${encodeURIComponent(city.country)}`, city, {
+                headers: {
+                    'Content-Type':'application/json'
+                }
+            })
+                .then(response => {
+                    alert('City updated successfully');
+                    navigate(`/cities`,);
+                })
+                .catch(error => {
+                    console.error('Failed to update the city' + error);
+                });
+        }
+    }
+
+    const handleInput = (event) => {
+        setCity({
+            ...city,
+            [event.target.name]: event.target.value
+        });
     }
     
     const handleCancel = () => {
@@ -20,27 +41,37 @@ export function CityEdit() {
     return (
         <Container>
             <Label>Name</Label>
-            <Input type="text" value={city?.name} />
+            <Input type="text" name="name" value={city?.name}
+                   style={{backgroundColor: '#ffdede'}} readOnly></Input>
             <Label>Country</Label>
-            <Input type="text" value={city?.country}></Input>
+            <Input type="text" name="country" value={city?.country}
+                   style={{backgroundColor: '#ffdede'}} readOnly></Input>
             <Label>Population</Label>
-            <Input type="text" value={city?.population}></Input>
+            <Input type="text" name="population" value={city?.population}
+                   onChange={handleInput}></Input>
             <Label>Latitude</Label>
-            <Input type="text" value={city?.latitude}></Input>
+            <Input type="text" name="latitude" value={city?.latitude}
+                   onChange={handleInput}></Input>
             <Label>Longitude</Label>
-            <Input type="text" value={city?.longitude}></Input>
+            <Input type="text" name="longitude" value={city?.longitude}
+                   onChange={handleInput}></Input>
             <Label>Elevation</Label>
-            <Input type="text" value={city?.elevation}></Input>
+            <Input type="text" name="elevation" value={city?.elevation}
+                   onChange={handleInput}></Input>
             <Label>Average annual temperature</Label>
-            <Input type="text" value={city?.averageAnnualTemperature}></Input>
+            <Input type="text" name="averageAnnualTemperature" value={city?.averageAnnualTemperature}
+                   onChange={handleInput}></Input>
             <Label>Average annual precipitation</Label>
-            <Input type="text" value={city?.averageAnnualPrecipitation}></Input>
+            <Input type="text" name="averageAnnualPrecipitation" value={city?.averageAnnualPrecipitation}
+                   onChange={handleInput}></Input>
             <Label>Founding date</Label>
-            <Input type="text" value={city?.foundingDate}></Input>
+            <Input type="text" name="foundingDate" value={city?.foundingDate}
+                   onChange={handleInput}></Input>
             <Label>Time Zone</Label>
-            <Input type="text" value={city?.timeZone}></Input>
+            <Input type="text" name="timeZone" value={city?.timeZone}
+                   onChange={handleInput}></Input>
             <Actions>
-                <Button onClick={() => handleSave()}>Save</Button>
+                <Button onClick={() => handleSave(city)}>Save</Button>
                 <Button onClick={() => handleCancel()}>Cancel</Button>
             </Actions>
         </Container>

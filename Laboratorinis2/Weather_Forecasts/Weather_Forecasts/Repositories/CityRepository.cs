@@ -26,6 +26,37 @@ public class CityRepository
         return result;
     }
 
+    public void Update(City city)
+    {
+        var query =
+            $@"UPDATE `{Config.TblPrefix}Cities`
+			SET 
+			    Population=?population,
+			    Latitude=?latitude,
+			    Longitude=?longitude,
+			    Elevation=?elevation,
+			    Average_annual_temperature=?averageAnnualTemperature,
+			    Average_annual_precipitation=?averageAnnualPrecipitation,
+			    Founding_date=?foundingDate,
+			    Time_zone=?timeZone
+			WHERE 
+				Name=?name AND Country=?country";
+
+        Sql.Update(query, args =>
+        {
+            args.Add("?name", city.Name);
+            args.Add("?country", city.Country);
+            args.Add("?population", city.Population);
+            args.Add("?latitude", city.Latitude);
+            args.Add("?longitude", city.Longitude);
+            args.Add("?elevation", city.Elevation);
+            args.Add("?averageAnnualTemperature", city.AverageAnnualTemperature);
+            args.Add("?averageAnnualPrecipitation", city.AverageAnnualPrecipitation);
+            args.Add("?foundingDate", city.FoundingDate);
+            args.Add("?timeZone", city.TimeZone);
+        });
+    }
+
     public City Find(string name, string country)
     {
         var query = $@"SELECT * FROM `{Config.TblPrefix}Cities` WHERE Name=?name AND Country=?country";
