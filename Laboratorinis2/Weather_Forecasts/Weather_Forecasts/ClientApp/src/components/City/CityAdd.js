@@ -12,17 +12,17 @@ export function CityAdd() {
 
     const handleSave = (city) => {
         if (window.confirm(`Are you sure you want to save ${city.name}?`)) {
-            axios.put(`api/city/${encodeURIComponent(city.name)}/${encodeURIComponent(city.country)}`, city, {
+            axios.post(`api/city`, city, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             })
                 .then(response => {
-                    alert('City updated successfully');
+                    alert('City added successfully');
                     navigate(`/cities`,);
                 })
                 .catch(error => {
-                    console.error('Failed to update the city' + error);
+                    console.error('Failed to add the city' + error);
                 });
         }
     }

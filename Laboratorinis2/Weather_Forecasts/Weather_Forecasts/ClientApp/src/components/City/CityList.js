@@ -30,8 +30,8 @@ export function CityList() {
         if (window.confirm(`Are you sure you want to delete ${city.name}?`)) {
             axios.delete(`api/city/${encodeURIComponent(city.name)}/${encodeURIComponent(city.country)}`)
                 .then(response => {
-                    alert('City deleted successfully');
                     setCities(cities.filter(c => c.name !== city.name || c.country !== city.country));
+                    alert('City deleted successfully');
                 })
                 .catch(error => {
                     console.error('Failed to delete the city', error);

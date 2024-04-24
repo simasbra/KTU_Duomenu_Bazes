@@ -4,6 +4,10 @@ namespace Weather_Forecasts.Repositories;
 
 public class CityRepository
 {
+    /// <summary>
+    /// Gets a list of all cities from the database
+    /// </summary>
+    /// <returns>List of all cities</returns>
     public List<City> GetList()
     {
         var query = $@"SELECT * FROM `{Config.TblPrefix}Cities` ORDER BY Name ASC";
@@ -26,6 +30,10 @@ public class CityRepository
         return result;
     }
 
+    /// <summary>
+    /// Updates a city in the database
+    /// </summary>
+    /// <param name="city">City to update</param>
     public void Update(City city)
     {
         var query =
@@ -57,6 +65,12 @@ public class CityRepository
         });
     }
 
+    /// <summary>
+    /// Finds a city by name and country
+    /// </summary>
+    /// <param name="name">City name</param>
+    /// <param name="country">City country</param>
+    /// <returns>City if found</returns>
     public City Find(string name, string country)
     {
         var query = $@"SELECT * FROM `{Config.TblPrefix}Cities` WHERE Name=?name AND Country=?country";
@@ -91,6 +105,11 @@ public class CityRepository
         return null;
     }
 
+    /// <summary>
+    /// Deletes a city from the database by name and country
+    /// </summary>
+    /// <param name="name">City name</param>
+    /// <param name="country">City country</param>
     public void Delete(string name, string country)
     {
         var query = $@"DELETE FROM `{Config.TblPrefix}Cities` WHERE Name=?name AND Country=?country";
@@ -98,6 +117,54 @@ public class CityRepository
         {
             args.Add("?name", name);
             args.Add("?country", country);
+        });
+    }
+
+    /// <summary>
+    /// Inserts a new city into the database
+    /// </summary>
+    /// <param name="city">City to insert</param>
+    public void Insert(City city)
+    {
+        var query = $@"INSERT INTO `{Config.TblPrefix}Cities`
+        (
+            Name,
+            Country,
+            Population,
+            Latitude,
+            Longitude,
+            Elevation,
+            Average_annual_temperature,
+            Average_annual_precipitation,
+            Founding_date,
+            Time_zone
+        )
+        VALUES
+        (
+            ?name,
+            ?country,
+            ?population,
+            ?latitude,
+            ?longitude,
+            ?elevation,
+            ?averageAnnualTemperature,
+            ?averageAnnualPrecipitation,
+            ?foundingDate,
+            ?timeZone
+        )";
+
+        Sql.Insert(query, args =>
+        {
+            args.Add("?name", city.Name);
+            args.Add("?country", city.Country);
+            args.Add("?population", city.Population);
+            args.Add("?latitude", city.Latitude);
+            args.Add("?longitude", city.Longitude);
+            args.Add("?elevation", city.Elevation);
+            args.Add("?averageAnnualTemperature", city.AverageAnnualTemperature);
+            args.Add("?averageAnnualPrecipitation", city.AverageAnnualPrecipitation);
+            args.Add("?foundingDate", city.FoundingDate);
+            args.Add("?timeZone", city.TimeZone);
         });
     }
 }

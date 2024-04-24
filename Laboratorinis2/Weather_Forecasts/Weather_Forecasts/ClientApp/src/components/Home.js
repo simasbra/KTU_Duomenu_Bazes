@@ -9,6 +9,7 @@ export function Home() {
     return (
         <Container>
             <Header>Welcome to the Weather Forecasts App</Header>
+            <p>An app for P175B602 Duomenų bazės module second laboratory work.</p>
             <ul>
                 <li>
                     <Link onClick={() => navigate('/cities')}>Cities</Link>

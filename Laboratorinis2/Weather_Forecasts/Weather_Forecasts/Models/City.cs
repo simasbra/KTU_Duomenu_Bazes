@@ -2,6 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Weather_Forecasts.Models;
 
+/// <summary>
+/// City model
+/// </summary>
 public class City
 {
     public string Name { get; set; }
