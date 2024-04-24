@@ -4,6 +4,8 @@ import CityEdit from "./components/City/CityEdit";
 import CityAdd from './components/City/CityAdd';
 import WeatherStationList from './components/WeatherStation/WeatherStationList';
 import WeatherStationEdit from './components/WeatherStation/WeatherStationEdit';
+import OperationalStatusView from './components/OperationalStatus/OperationalStatusView';
+import OperationalStatusEdit from './components/OperationalStatus/OperationalStatusEdit';
 
 const AppRoutes = [
     {
@@ -36,6 +38,15 @@ const AppRoutes = [
     {
         path: "/weather-stations/:code/edit",
         element: <WeatherStationEdit/>
+    },
+    // Weather Station Operational Status:
+    {
+        path: "/weather-stations/:code/operational-status",
+        element: <OperationalStatusView/>
+    },
+    {
+        path: "/weather-stations/:code/operational-status/:id/edit",
+        element: <OperationalStatusEdit/>
     }
 ];
 

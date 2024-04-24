@@ -2,7 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import styled from 'styled-components';
 import axios from '../../axiosConfig';
-import {Button, DeleteButton, Actions, Table, Header} from '../Shared/Components';
+import {Button, DeleteButton, Actions, Table, Header, ActionsContainer} from '../Shared/Components';
+import {format} from 'date-fns';
 
 export function CityList() {
     const [cities, setCities] = useState([]);
@@ -12,7 +13,11 @@ export function CityList() {
         const fetchCities = () => {
             axios.get('api/city')
                 .then(response => {
-                    setCities(response.data);
+                    const formattedCities = response.data.map(city => ({
+                        ...city,
+                        foundingDate: format(new Date(city.foundingDate), 'yyyy-MM-dd')
+                    }));
+                    setCities(formattedCities);
                 })
                 .catch(error => {
                     console.error('Failed to fetch cities', error);
@@ -86,10 +91,9 @@ export function CityList() {
                 ))}
                 </tbody>
             </Table>
-            <br/>
-            <Actions>
+            <ActionsContainer>
                 <Button onClick={handleAdd}>Add City</Button>
-            </Actions>
+            </ActionsContainer>
         </Container>
     );
 }

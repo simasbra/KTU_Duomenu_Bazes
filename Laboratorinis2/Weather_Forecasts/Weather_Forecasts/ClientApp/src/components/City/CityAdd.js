@@ -2,7 +2,7 @@ import React from 'react';
 import {useLocation} from 'react-router-dom';
 import styled from 'styled-components';
 import {useNavigate} from 'react-router-dom';
-import {Button, Actions, Input, Header} from '../Shared/Components';
+import {Button, Actions, Input, Header, ActionsContainer} from '../Shared/Components';
 import axios from '../../axiosConfig';
 
 export function CityAdd() {
@@ -71,10 +71,10 @@ export function CityAdd() {
             <Label>Time Zone</Label>
             <Input type="text" name="timeZone" value={city?.timeZone}
                    onChange={handleInput}></Input>
-            <Actions>
+            <ActionsContainer>
                 <Button onClick={() => handleSave(city)}>Save</Button>
                 <Button onClick={() => handleCancel()}>Cancel</Button>
-            </Actions>
+            </ActionsContainer>
         </Container>
     );
 }

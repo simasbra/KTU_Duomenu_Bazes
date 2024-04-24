@@ -71,3 +71,11 @@ export const Header = styled.h1`
     margin: 0;
     padding: 10px 0 20px 0;
 `;
+
+export const ActionsContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 10px;
+    background-color: transparent;
+`;

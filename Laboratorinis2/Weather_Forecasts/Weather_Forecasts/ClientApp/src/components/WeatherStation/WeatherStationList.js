@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import styled from 'styled-components';
 import axios from '../../axiosConfig';
-import {Button, DeleteButton, Actions, Table, Header} from '../Shared/Components';
+import {Button, DeleteButton, Actions, Table, Header, ActionsContainer} from '../Shared/Components';
 
 export function WeatherStationList() {
     const [stations, setStations] = useState([]);
@@ -43,6 +43,10 @@ export function WeatherStationList() {
     const handleAdd = () => {
         // navigate('/cities/new');
     }
+    
+    const handleStatus = (station) => {
+        navigate(`/weather-stations/${station.code}/operational-status`, {state: {code: station.code}})
+    }
 
     return (
         <Container>
@@ -76,6 +80,7 @@ export function WeatherStationList() {
                         <td>{station.timeZone}</td>
                         <td>
                             <Actions>
+                                <Button onClick={() => handleStatus(station)}>Status</Button>
                                 <Button onClick={() => handleEdit(station)}>Edit</Button>
                                 <DeleteButton onClick={() => handleDelete(station)}>Delete</DeleteButton>
                             </Actions>
@@ -84,10 +89,9 @@ export function WeatherStationList() {
                 ))}
                 </tbody>
             </Table>
-            <br/>
-            <Actions>
+            <ActionsContainer>
                 <Button onClick={handleAdd}>Add Weather Station</Button>
-            </Actions>
+            </ActionsContainer>
         </Container>
     );
 }

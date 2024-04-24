@@ -2,7 +2,7 @@ import React from 'react';
 import {useLocation} from 'react-router-dom';
 import styled from 'styled-components';
 import {useNavigate} from 'react-router-dom';
-import {Button, Actions, Input, Header } from '../Shared/Components';
+import {Button, Actions, Input, Header, ActionsContainer} from '../Shared/Components';
 import axios from '../../axiosConfig';
 
 export function CityEdit() {
@@ -42,39 +42,39 @@ export function CityEdit() {
         <Container>
             <Header>Edit {city?.name}</Header>
             <Label>Name</Label>
-            <Input type="text" name="name" value={city?.name}
+            <Input type="text" name="name" value={city?.name || ''}
                    style={{backgroundColor: '#ffdede'}} readOnly></Input>
             <Label>Country</Label>
             <Input type="text" name="country" value={city?.country}
                    style={{backgroundColor: '#ffdede'}} readOnly></Input>
             <Label>Population</Label>
-            <Input type="text" name="population" value={city?.population}
+            <Input type="text" name="population" value={city?.population || ''}
                    onChange={handleInput}></Input>
             <Label>Latitude</Label>
-            <Input type="text" name="latitude" value={city?.latitude}
+            <Input type="text" name="latitude" value={city?.latitude || ''}
                    onChange={handleInput}></Input>
             <Label>Longitude</Label>
-            <Input type="text" name="longitude" value={city?.longitude}
+            <Input type="text" name="longitude" value={city?.longitude || ''}
                    onChange={handleInput}></Input>
             <Label>Elevation</Label>
-            <Input type="text" name="elevation" value={city?.elevation}
+            <Input type="text" name="elevation" value={city?.elevation || ''}
                    onChange={handleInput}></Input>
             <Label>Average annual temperature</Label>
-            <Input type="text" name="averageAnnualTemperature" value={city?.averageAnnualTemperature}
+            <Input type="text" name="averageAnnualTemperature" value={city?.averageAnnualTemperature || ''}
                    onChange={handleInput}></Input>
             <Label>Average annual precipitation</Label>
-            <Input type="text" name="averageAnnualPrecipitation" value={city?.averageAnnualPrecipitation}
+            <Input type="text" name="averageAnnualPrecipitation" value={city?.averageAnnualPrecipitation || ''}
                    onChange={handleInput}></Input>
             <Label>Founding date</Label>
-            <Input type="text" name="foundingDate" value={city?.foundingDate}
+            <Input type="text" name="foundingDate" value={city?.foundingDate || ''}
                    onChange={handleInput}></Input>
             <Label>Time Zone</Label>
-            <Input type="text" name="timeZone" value={city?.timeZone}
+            <Input type="text" name="timeZone" value={city?.timeZone || ''}
                    onChange={handleInput}></Input>
-            <Actions>
+            <ActionsContainer>
                 <Button onClick={() => handleSave(city)}>Save</Button>
                 <Button onClick={() => handleCancel()}>Cancel</Button>
-            </Actions>
+            </ActionsContainer>
         </Container>
     );
 }
