@@ -2,7 +2,7 @@ import React from 'react';
 import {useLocation} from 'react-router-dom';
 import styled from 'styled-components';
 import {useNavigate} from 'react-router-dom';
-import {Button, Actions, Input} from '../Components';
+import {Button, Actions, Input, Header} from '../Shared/Components';
 import axios from '../../axiosConfig';
 
 export function CityAdd() {
@@ -40,6 +40,7 @@ export function CityAdd() {
 
     return (
         <Container>
+            <Header>Add new city</Header>
             <Label>Name</Label>
             <Input type="text" name="name" value={city?.name}
                    onChange={handleInput}></Input>

@@ -30,6 +30,7 @@ export const Actions = styled.div`
     display: flex;
     gap: 10px;
     justify-content: center;
+    background-color: transparent;
 `;
 
 export const Input = styled.input`
@@ -51,10 +52,17 @@ export const Table = styled.table`
 
     td {
         white-space: nowrap;
+        background-color: inherit;
     }
 
     th {
         white-space: normal;
+    }
+    
+    tr {
+        &:hover {
+            background-color: #b0d7ff;
+        }
     }
 `;
 

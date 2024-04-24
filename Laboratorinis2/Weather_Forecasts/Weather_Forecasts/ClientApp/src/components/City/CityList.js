@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import styled from 'styled-components';
 import axios from '../../axiosConfig';
-import {Button, DeleteButton, Actions, Table} from '../Components';
+import {Button, DeleteButton, Actions, Table, Header} from '../Shared/Components';
 
 export function CityList() {
     const [cities, setCities] = useState([]);
@@ -41,11 +41,12 @@ export function CityList() {
     }
     
     const handleAdd = () => {
-        navigate('/cities/new');
+        navigate('/cities/add');
     }
     
     return (
         <Container>
+            <Header>Cities List</Header>
             <Table>
                 <thead>
                 <tr>

@@ -2,7 +2,7 @@ import React from 'react';
 import {useLocation} from 'react-router-dom';
 import styled from 'styled-components';
 import {useNavigate} from 'react-router-dom';
-import {Button, Actions, Input, Header } from '../Components';
+import {Button, Actions, Input, Header } from '../Shared/Components';
 import axios from '../../axiosConfig';
 
 export function CityEdit() {

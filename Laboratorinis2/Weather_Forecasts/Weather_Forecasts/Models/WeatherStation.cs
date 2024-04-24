@@ -20,6 +20,6 @@ public class WeatherStationList
     public decimal Longitude { get; set; }
     public int Elevation { get; set; }
     public string Type { get; set; }
-    public string fk_CityName { get; set; }
-    public string fk_CityCountry { get; set; }
+    public string CityName { get; set; }
+    public string CityCountry { get; set; }
 }

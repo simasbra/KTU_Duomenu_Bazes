@@ -15,10 +15,10 @@ export function Home() {
                     <Link onClick={() => navigate('/cities')}>Cities</Link>
                 </li>
                 <li>
-                    <Link onClick={() => navigate('/stations')}>Weather Stations</Link>
+                    <Link onClick={() => navigate('/weather-stations')}>Weather Stations</Link>
                 </li>
                 <li>
-                    <Link onClick={() => navigate('/forecasts')}>Weather Forecasts</Link>
+                    <Link onClick={() => navigate('/weather-forecasts')}>Weather Forecasts</Link>
                 </li>
             </ul>
         </Container>

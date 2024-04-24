@@ -17,10 +17,10 @@ export class NavMenu extends Component {
                         <StyledLink to="/cities">Cities</StyledLink>
                     </NavItem>
                     <NavItem>
-                        <StyledLink to="/stations">Weather Stations</StyledLink>
+                        <StyledLink to="/weather-stations">Weather Stations</StyledLink>
                     </NavItem>
                     <NavItem>
-                        <StyledLink to="/forecasts">Weather Forecasts</StyledLink>
+                        <StyledLink to="/weather-forecasts">Weather Forecasts</StyledLink>
                     </NavItem>
                 </NavList>
             </Navbar>
@@ -29,7 +29,7 @@ export class NavMenu extends Component {
 }
 
 const Navbar = styled.div`
-    background-color: #f0f0f0;
+    background-color: #f3f6ff;
     width: 100%;
     height: 50px;
     position: fixed;
@@ -39,7 +39,7 @@ const Navbar = styled.div`
     align-items: center;
     justify-content: space-between;
     z-index: 1000;
-    
+
     @media (min-width: 768px) {
         padding: 0 5%;
     }
@@ -80,7 +80,7 @@ const StyledLink = styled(NavLink)`
     font-weight: 600;
 
     &:hover {
-        background-color: lightgrey;
+        background-color: #b0d7ff;
         color: black;
     }
 

@@ -1,13 +1,18 @@
-import Home from './components/Home';
+import Home from './components/Shared/Home';
 import CityList from "./components/City/CityList";
 import CityEdit from "./components/City/CityEdit";
 import CityAdd from './components/City/CityAdd';
+import WeatherStationList from './components/WeatherStation/WeatherStationList';
 
 const AppRoutes = [
     {
         path: "/",
         element: <Home/>,
         index: true
+    },
+    {
+        path: "*",
+        element: <Home/>
     },
     {
         path: "/cities",
@@ -18,12 +23,12 @@ const AppRoutes = [
         element: <CityEdit/>
     },
     {
-        path: "/cities/new",
+        path: "/cities/add",
         element: <CityAdd/>
     },
     {
-        path: "*",
-        element: <Home/>
+        path: "/weather-stations",
+        element: <WeatherStationList/>
     }
 ];
 
