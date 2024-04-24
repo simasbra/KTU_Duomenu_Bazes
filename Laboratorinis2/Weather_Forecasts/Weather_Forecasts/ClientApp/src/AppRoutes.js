@@ -1,6 +1,7 @@
-import { Home } from './components/Home';
-import { CityList } from "./components/City/CityList";
-import { CityEdit } from "./components/City/CityEdit";
+import Home from './components/Home';
+import CityList from "./components/City/CityList";
+import CityEdit from "./components/City/CityEdit";
+import CityAdd from './components/City/CityAdd';
 
 const AppRoutes = [
     {
@@ -15,6 +16,10 @@ const AppRoutes = [
     {
         path: "/cities/:name/edit",
         element: <CityEdit/>
+    },
+    {
+        path: "/cities/new",
+        element: <CityAdd/>
     },
     {
         path: "*",

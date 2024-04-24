@@ -2,10 +2,10 @@ import React from 'react';
 import {useLocation} from 'react-router-dom';
 import styled from 'styled-components';
 import {useNavigate} from 'react-router-dom';
-import {Button, Actions, Input, Header } from '../Components';
+import {Button, Actions, Input} from '../Components';
 import axios from '../../axiosConfig';
 
-export function CityEdit() {
+export function CityAdd() {
     const navigate = useNavigate();
     const location = useLocation();
     const [city, setCity] = React.useState(location.state?.city);
@@ -14,7 +14,7 @@ export function CityEdit() {
         if (window.confirm(`Are you sure you want to save ${city.name}?`)) {
             axios.put(`api/city/${encodeURIComponent(city.name)}/${encodeURIComponent(city.country)}`, city, {
                 headers: {
-                    'Content-Type':'application/json'
+                    'Content-Type': 'application/json'
                 }
             })
                 .then(response => {
@@ -33,20 +33,19 @@ export function CityEdit() {
             [event.target.name]: event.target.value
         });
     }
-    
+
     const handleCancel = () => {
         navigate(`/cities`,);
     }
-    
+
     return (
         <Container>
-            <Header>Edit {city?.name}</Header>
             <Label>Name</Label>
             <Input type="text" name="name" value={city?.name}
-                   style={{backgroundColor: '#ffdede'}} readOnly></Input>
+                   onChange={handleInput}></Input>
             <Label>Country</Label>
             <Input type="text" name="country" value={city?.country}
-                   style={{backgroundColor: '#ffdede'}} readOnly></Input>
+                   onChange={handleInput}></Input>
             <Label>Population</Label>
             <Input type="text" name="population" value={city?.population}
                    onChange={handleInput}></Input>
@@ -79,7 +78,7 @@ export function CityEdit() {
     );
 }
 
-export default CityEdit;
+export default CityAdd;
 
 const Container = styled.div`
     padding: 0 10px;
@@ -90,4 +89,3 @@ const Container = styled.div`
 const Label = styled.label`
     margin: 5px 0 0 0;
 `;
-

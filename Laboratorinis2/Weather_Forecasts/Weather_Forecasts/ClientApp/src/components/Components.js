@@ -57,3 +57,9 @@ export const Table = styled.table`
         white-space: normal;
     }
 `;
+
+
+export const Header = styled.h1`
+    margin: 0;
+    padding: 10px 0;
+`;

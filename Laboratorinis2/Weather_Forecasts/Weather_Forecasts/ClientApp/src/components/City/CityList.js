@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 import styled from 'styled-components';
 import axios from '../../axiosConfig';
-import { Button, DeleteButton, Actions, Table } from '../Components';
+import {Button, DeleteButton, Actions, Table} from '../Components';
 
 export function CityList() {
     const [cities, setCities] = useState([]);
@@ -38,6 +38,10 @@ export function CityList() {
                     alert('Failed to delete the city');
                 });
         }
+    }
+    
+    const handleAdd = () => {
+        navigate('/cities/new');
     }
     
     return (
@@ -81,6 +85,10 @@ export function CityList() {
                 ))}
                 </tbody>
             </Table>
+            <br/>
+            <Actions>
+                <Button onClick={handleAdd}>Add City</Button>
+            </Actions>
         </Container>
     );
 }
