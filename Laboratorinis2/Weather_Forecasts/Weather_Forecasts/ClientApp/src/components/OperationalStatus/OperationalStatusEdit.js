@@ -35,7 +35,7 @@ export function OperationalStatusEdit() {
             <Input type="text" name="dateTo" value={status?.dateTo || ''}
                    onChange={handleInput}></Input>
             <Label>Status (working?)</Label>
-            <Input type="text" name="status" value={status?.status || ''}
+            <Input type="text" name="status" value={status.status ? 'Active' : 'Inactive'}
                    onChange={handleInput}></Input>
             <ActionsContainer>
                 <Button onClick={() => handleSave(status)}>Save</Button>

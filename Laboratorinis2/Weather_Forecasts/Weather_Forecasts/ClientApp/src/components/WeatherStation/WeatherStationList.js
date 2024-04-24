@@ -18,12 +18,12 @@ export function WeatherStationList() {
                     console.error('Failed to fetch weather stations', error);
                 });
         };
-
+        
         fetchStations();
     }, []);
 
     const handleEdit = (station) => {
-        navigate(`/weather-stations/${station.code}/edit`, {state: {station: station}});
+        navigate(`/weather-stations/${station.code}/edit`, {state: {code: station.code}});
     }
 
     const handleDelete = (station) => {
@@ -44,8 +44,8 @@ export function WeatherStationList() {
         // navigate('/cities/new');
     }
     
-    const handleStatus = (station) => {
-        navigate(`/weather-stations/${station.code}/operational-status`, {state: {code: station.code}})
+    const handleView = (station) => {
+        navigate(`/weather-stations/${station.code}`, {state: {code: station.code}})
     }
 
     return (
@@ -56,13 +56,11 @@ export function WeatherStationList() {
                 <tr>
                     <th>Code</th>
                     <th>Managing organization</th>
-                    <th>Latitude</th>
-                    <th>Longitude</th>
-                    <th>Elevation (m)</th>
                     <th>Type</th>
                     <th>City name</th>
                     <th>City country</th>
                     <th>Time Zone (UTF)</th>
+                    <th>Operational status</th>
                     <th style={{textAlign: 'center'}}>Actions</th>
                 </tr>
                 </thead>
@@ -71,16 +69,14 @@ export function WeatherStationList() {
                     <tr key={station.code}>
                         <td>{station.code}</td>
                         <td>{station.managingOrganization}</td>
-                        <td>{station.latitude.toFixed(6)}</td>
-                        <td>{station.longitude.toFixed(6)}</td>
-                        <td>{station.elevation}</td>
                         <td>{station.type}</td>
                         <td>{station.cityName}</td>
                         <td>{station.cityCountry}</td>
                         <td>{station.timeZone}</td>
+                        <td>{station.operationalStatus ? 'Active' : 'Inactive'}</td>
                         <td>
                             <Actions>
-                                <Button onClick={() => handleStatus(station)}>Status</Button>
+                                <Button onClick={() => handleView(station)}>View</Button>
                                 <Button onClick={() => handleEdit(station)}>Edit</Button>
                                 <DeleteButton onClick={() => handleDelete(station)}>Delete</DeleteButton>
                             </Actions>

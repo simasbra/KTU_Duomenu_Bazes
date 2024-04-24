@@ -81,4 +81,25 @@ public class WeatherStationController : ControllerBase
             return StatusCode(500, "Internal server error: " + ex.Message);
         }
     }
+    
+    /// <summary>
+    /// Finds a weather station by code
+    /// </summary>
+    /// <param name="code">Code to find</param>
+    /// <returns>Weather station if successful</returns>
+    [HttpGet("{code}")]
+    public IActionResult FindWeatherStation(string code)
+    {
+        Console.WriteLine(DateTime.Now + " FindWeatherStation: got request.");
+        var station = _weatherStationRepository.Find(code);
+        if (station == null)
+        {
+            Console.WriteLine(DateTime.Now + "FindWeatherStation: Weather station " + code + " not found.");
+            return NotFound("Weather station not found");
+        }
+
+        Console.WriteLine(DateTime.Now + " FindWeatherStation: Weather station " + code + " found.");
+        
+        return Ok(station);
+    }
 }

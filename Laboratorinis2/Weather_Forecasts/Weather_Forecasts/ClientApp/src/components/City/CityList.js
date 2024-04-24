@@ -49,6 +49,10 @@ export function CityList() {
         navigate('/cities/add');
     }
     
+    const handleView = (city) => {
+        navigate(`/cities/${city.name}`, { state: { city } });
+    }
+    
     return (
         <Container>
             <Header>Cities List</Header>
@@ -61,8 +65,6 @@ export function CityList() {
                     <th>Latitude</th>
                     <th>Longitude</th>
                     <th>Elevation (m)</th>
-                    <th>Avg Temp (°C)</th>
-                    <th>Avg Precip (mm)</th>
                     <th>Founding Date</th>
                     <th>Time Zone (UTC)</th>
                     <th style={{textAlign: 'center'}}>Actions</th>
@@ -77,12 +79,11 @@ export function CityList() {
                         <td>{city.latitude.toFixed(6)}</td>
                         <td>{city.longitude.toFixed(6)}</td>
                         <td>{city.elevation}</td>
-                        <td>{city.averageAnnualTemperature}</td>
-                        <td>{city.averageAnnualPrecipitation}</td>
                         <td>{city.foundingDate.substring(0, 10)}</td>
                         <td>{city.timeZone}</td>
                         <td>
                             <Actions>
+                                <Button onClick={() => handleView(city)}>View</Button>
                                 <Button onClick={() => handleEdit(city)}>Edit</Button>
                                 <DeleteButton onClick={() => handleDelete(city)}>Delete</DeleteButton>
                             </Actions>

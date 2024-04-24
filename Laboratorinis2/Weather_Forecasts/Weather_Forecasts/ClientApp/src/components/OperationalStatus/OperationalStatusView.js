@@ -13,7 +13,7 @@ export function OperationalStatusView() {
     const [status, setStatus] = useState({});
 
     useEffect(() => {
-        const fetchCities = () => {
+        const fetchOperationalStatus = () => {
             axios.get(`api/operationalStatus/${code}`)
                 .then(response => {
                     const formattedData = {
@@ -28,7 +28,7 @@ export function OperationalStatusView() {
                 });
         };
 
-        fetchCities();
+        fetchOperationalStatus();
     }, []);
     
     const handleEdit = () => {

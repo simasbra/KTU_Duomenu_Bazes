@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging.Abstractions;
 using Weather_Forecasts.Models;
 
 namespace Weather_Forecasts.Repositories;
@@ -37,16 +38,14 @@ public class WeatherStationRepository
 	    var query = $@"SELECT
 			station.Code,
 			station.Managing_organization,
-			station.Latitude,
-			station.Longitude,
-			station.Elevation,
 			station.Type,
 			city.Name AS CityName,
 			city.Country AS CityCountry,
-			city.Time_zone AS TimeZone
-			FROM
-				`{Config.TblPrefix}Weather_Stations` station
+			city.Time_zone AS TimeZone,
+			status.Status AS OperationalStatus
+			FROM `{Config.TblPrefix}Weather_Stations` station
 				LEFT JOIN `{Config.TblPrefix}Cities` city ON city.Name = station.fk_CityName AND city.Country = station.fk_CityCountry
+        		LEFT JOIN `{Config.TblPrefix}Operational_Statuses` status ON status.fk_Weather_StationCode = station.Code
 			ORDER BY station.Code ASC";
 	    var drc = Sql.Query(query);
 
@@ -54,13 +53,11 @@ public class WeatherStationRepository
 	    {
 		    e.Code = dre.From<string>("Code");
 		    e.ManagingOrganization = dre.From<string>("Managing_organization");
-		    e.Latitude = dre.From<decimal>("Latitude");
-		    e.Longitude = dre.From<decimal>("Longitude");
-		    e.Elevation = dre.From<int>("Elevation");
 		    e.Type = dre.From<string>("Type");
 		    e.CityName = dre.From<string>("CityName");
 		    e.CityCountry = dre.From<string>("CityCountry");
 		    e.TimeZone = dre.From<int>("TimeZone");
+		    e.OperationalStatus = dre.From<bool>("OperationalStatus");
 	    });
 
 	    return result;
@@ -82,5 +79,39 @@ public class WeatherStationRepository
 	    {
 		    args.Add("?code", code);
 	    });
+	}
+
+    /// <summary>
+    /// Finds a weather station in the database by code
+    /// </summary>
+    /// <param name="code">Code to find</param>
+    /// <returns>Weather Station if found</returns>
+	public WeatherStation Find(string code)
+	{
+		var query = $@"SELECT * FROM `{Config.TblPrefix}Weather_Stations` WHERE Code=?code";
+		
+		var drc = Sql.Query(query, args =>
+		{
+			args.Add("?code", code);
+		});
+
+		if (drc.Count > 0)
+		{
+			var result = Sql.MapOne<WeatherStation>(drc, (dre, e) =>
+			{
+				e.Code = dre.From<string>("Code");
+				e.ManagingOrganization = dre.From<string>("Managing_organization");
+				e.Latitude = dre.From<decimal>("Latitude");
+				e.Longitude = dre.From<decimal>("Longitude");
+				e.Elevation = dre.From<int>("Elevation");
+				e.Type = dre.From<string>("Type");
+				e.fk_CityCountry = dre.From<string>("fk_CityCountry");
+				e.fk_CityName = dre.From<string>("fk_CityName");
+			});
+			
+			return result;
+		}
+
+		return null;
 	}
 }

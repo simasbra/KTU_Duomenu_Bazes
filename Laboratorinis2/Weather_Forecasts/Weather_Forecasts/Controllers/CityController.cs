@@ -107,4 +107,26 @@ public class CityController : ControllerBase
             return StatusCode(500, "Internal server error: " + ex.Message);
         }
     }
+
+    /// <summary>
+    /// Finds a city by name and country
+    /// </summary>
+    /// <param name="name">Name to find</param>
+    /// <param name="country">Country to find</param>
+    /// <returns>City if successful</returns>
+    [HttpGet("{name}/{country}")]
+    public IActionResult FindCity(string name, string country)
+    {
+        Console.WriteLine(DateTime.Now + " FindCity: got request.");
+        var city = _cityRepository.Find(name, country);
+        if (city == null)
+        {
+            Console.WriteLine(DateTime.Now + " FindCity: City " + name + " not found.");
+            return NotFound("City not found");
+        }
+
+        Console.WriteLine(DateTime.Now + " FindCity: City " + name + " found.");
+        
+        return Ok(city);
+    }
 }
