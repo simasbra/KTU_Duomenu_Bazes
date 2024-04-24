@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import styled from 'styled-components';
 import axios from '../../axiosConfig';
-import {Button, DeleteButton, Actions, Table} from '../Shared/Components';
+import {Button, DeleteButton, Actions, Table, Header} from '../Shared/Components';
 
 export function WeatherStationList() {
     const [stations, setStations] = useState([]);
@@ -10,7 +10,7 @@ export function WeatherStationList() {
 
     useEffect(() => {
         const fetchStations = () => {
-            axios.get('api/weatherStation/table')
+            axios.get('api/weatherStation')
                 .then(response => {
                     setStations(response.data);
                 })
@@ -22,22 +22,22 @@ export function WeatherStationList() {
         fetchStations();
     }, []);
 
-    const handleEdit = (city) => {
-        // navigate(`/cities/${city.name}/edit`, {state: {city}});
+    const handleEdit = (station) => {
+        navigate(`/weather-stations/${station.code}/edit`, {state: {station: station}});
     }
 
-    const handleDelete = (city) => {
-        // if (window.confirm(`Are you sure you want to delete ${city.name}?`)) {
-        //     axios.delete(`api/city/${encodeURIComponent(city.name)}/${encodeURIComponent(city.country)}`)
-        //         .then(response => {
-        //             setStations(stations.filter(c => c.name !== city.name || c.country !== city.country));
-        //             alert('City deleted successfully');
-        //         })
-        //         .catch(error => {
-        //             console.error('Failed to delete the city', error);
-        //             alert('Failed to delete the city');
-        //         });
-        // }
+    const handleDelete = (station) => {
+        if (window.confirm(`Are you sure you want to delete ${station.code} weather station?`)) {
+            axios.delete(`api/weatherStation/${encodeURIComponent(station.code)}`)
+                .then(response => {
+                    setStations(stations.filter(c => c.code !== station.code));
+                    alert('Weather station deleted successfully');
+                })
+                .catch(error => {
+                    console.error('Failed to delete the weather station', error);
+                    alert('Failed to delete the weather station');
+                });
+        }
     }
 
     const handleAdd = () => {
@@ -46,6 +46,7 @@ export function WeatherStationList() {
 
     return (
         <Container>
+            <Header>Weather Stations List</Header>
             <Table>
                 <thead>
                 <tr>
@@ -57,6 +58,7 @@ export function WeatherStationList() {
                     <th>Type</th>
                     <th>City name</th>
                     <th>City country</th>
+                    <th>Time Zone (UTF)</th>
                     <th style={{textAlign: 'center'}}>Actions</th>
                 </tr>
                 </thead>
@@ -69,8 +71,9 @@ export function WeatherStationList() {
                         <td>{station.longitude.toFixed(6)}</td>
                         <td>{station.elevation}</td>
                         <td>{station.type}</td>
-                        <td>{station.fk_CityName}</td>
-                        <td>{station.fk_CityCountry}</td>
+                        <td>{station.cityName}</td>
+                        <td>{station.cityCountry}</td>
+                        <td>{station.timeZone}</td>
                         <td>
                             <Actions>
                                 <Button onClick={() => handleEdit(station)}>Edit</Button>

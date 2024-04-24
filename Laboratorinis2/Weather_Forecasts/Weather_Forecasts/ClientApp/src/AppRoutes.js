@@ -3,6 +3,7 @@ import CityList from "./components/City/CityList";
 import CityEdit from "./components/City/CityEdit";
 import CityAdd from './components/City/CityAdd';
 import WeatherStationList from './components/WeatherStation/WeatherStationList';
+import WeatherStationEdit from './components/WeatherStation/WeatherStationEdit';
 
 const AppRoutes = [
     {
@@ -14,6 +15,7 @@ const AppRoutes = [
         path: "*",
         element: <Home/>
     },
+    // Cities:
     {
         path: "/cities",
         element: <CityList/>
@@ -26,9 +28,14 @@ const AppRoutes = [
         path: "/cities/add",
         element: <CityAdd/>
     },
+    // Weather Stations:
     {
         path: "/weather-stations",
         element: <WeatherStationList/>
+    },
+    {
+        path: "/weather-stations/:code/edit",
+        element: <WeatherStationEdit/>
     }
 ];
 

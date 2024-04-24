@@ -69,5 +69,5 @@ export const Table = styled.table`
 
 export const Header = styled.h1`
     margin: 0;
-    padding: 10px 0;
+    padding: 10px 0 20px 0;
 `;

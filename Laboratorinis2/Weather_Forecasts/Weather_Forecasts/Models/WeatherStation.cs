@@ -22,4 +22,5 @@ public class WeatherStationList
     public string Type { get; set; }
     public string CityName { get; set; }
     public string CityCountry { get; set; }
+    public int TimeZone { get; set; }
 }

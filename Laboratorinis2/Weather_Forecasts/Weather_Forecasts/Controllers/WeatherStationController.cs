@@ -27,13 +27,16 @@ public class WeatherStationController : ControllerBase
     [HttpGet("table")]
     public IActionResult GetWeatherStationsTable()
     {
-        Console.WriteLine(DateTime.Now + " GetWeatherStationsTable called.");
+        Console.WriteLine(DateTime.Now + " GetWeatherStationsTable: got request.");
         var stations = _weatherStationRepository.GetTable();
         if (stations == null || stations.Count == 0)
         {
+            Console.WriteLine(DateTime.Now + "GetWeatherStationsTable: No weather stations found.");
             return NotFound("No weather stations found");
         }
 
+        Console.WriteLine(DateTime.Now + " GetWeatherStationsTable: " + stations.Count + " weather stations found.");
+        
         return Ok(stations);
     }
 
@@ -44,13 +47,38 @@ public class WeatherStationController : ControllerBase
     [HttpGet]
     public IActionResult GetWeatherStationsList()
     {
-        Console.WriteLine(DateTime.Now + " GetWeatherStationsTable called.");
-        var stations = _weatherStationRepository.GetTable();
+        Console.WriteLine(DateTime.Now + " GetWeatherStationsList: got request.");
+        var stations = _weatherStationRepository.GetList();
         if (stations == null || stations.Count == 0)
         {
+            Console.WriteLine(DateTime.Now + "GetWeatherStationsList: No weather stations found.");
             return NotFound("No weather stations found");
         }
 
+        Console.WriteLine(DateTime.Now + " GetWeatherStationsList: " + stations.Count + " weather stations found.");
+        
         return Ok(stations);
+    }
+
+    /// <summary>
+    /// Deletes a weather station by code
+    /// </summary>
+    /// <param name="code">Weather station code</param>
+    /// <returns>Ok if successful</returns>
+    [HttpDelete("{code}")]
+    public IActionResult DeleteWeatherStation(string code)
+    {
+        Console.WriteLine(DateTime.Now + " DeleteWeatherStation: got request.");
+        try
+        {
+            _weatherStationRepository.Delete(code);
+            Console.WriteLine(DateTime.Now + " DeleteWeatherStation: Weather station deleted successfully.");
+            return Ok("Weather station deleted successfully.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(DateTime.Now + " DeleteWeatherStation: " + ex.Message);
+            return StatusCode(500, "Internal server error: " + ex.Message);
+        }
     }
 }
