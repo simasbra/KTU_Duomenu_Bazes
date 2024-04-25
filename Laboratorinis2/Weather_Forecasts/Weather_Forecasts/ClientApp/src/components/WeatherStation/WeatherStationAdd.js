@@ -32,8 +32,12 @@ export function WeatherStationEdit() {
     }, []);
 
     const handleSave = (station, status) => {
-        status.fk_Weather_StationCode = station.code;
-        
+        const payload = {
+            ...status,
+            fk_WeatherStationCode: station.code
+        };
+
+
         console.log(status);
 
         if (window.confirm(`Are you sure you want to save ${station.code}?`)) {
@@ -46,7 +50,7 @@ export function WeatherStationEdit() {
                     console.error('Failed to update the weather station' + error);
                 });
 
-            axios.post(`api/operationalStatus/insert`, status, {
+            axios.post(`api/operationalStatus/insert`, payload, {
                 headers: {
                     'Content-Type': 'application/json'
                 }

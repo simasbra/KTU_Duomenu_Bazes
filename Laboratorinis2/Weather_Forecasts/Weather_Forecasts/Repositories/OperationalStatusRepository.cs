@@ -126,4 +126,17 @@ public class OperationalStatusesRepository
             args.Add("?code", status.fk_WeatherStationCode);
         });
     }
+    
+    /// <summary>
+    /// Deletes an operational status from the database
+    /// </summary>
+    /// <param name="code">Weather station code</param>
+    public void Delete(string code)
+    {
+        var query = $@"DELETE FROM `{Config.TblPrefix}Operational_Statuses` WHERE fk_Weather_StationCode=?code";
+        Sql.Delete(query, args =>
+        {
+            args.Add("?code", code);
+        });
+    }
 }

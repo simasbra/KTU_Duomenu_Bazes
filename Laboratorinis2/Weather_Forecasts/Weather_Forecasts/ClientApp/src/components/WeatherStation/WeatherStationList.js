@@ -28,6 +28,10 @@ export function WeatherStationList() {
 
     const handleDelete = (station) => {
         if (window.confirm(`Are you sure you want to delete ${station.code} weather station?`)) {
+            axios.delete(`api/operationalStatus/${encodeURIComponent(station.code)}`)
+                .catch(error => {
+                    console.error('Failed to delete the operational status', error);
+                });
             axios.delete(`api/weatherStation/${encodeURIComponent(station.code)}`)
                 .then(response => {
                     setStations(stations.filter(c => c.code !== station.code));

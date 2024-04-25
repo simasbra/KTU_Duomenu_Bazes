@@ -106,4 +106,26 @@ public class OperationalStatusController : ControllerBase
             return BadRequest(e.Message);
         }
     }
+    
+    /// <summary>
+    /// Deletes an operational status
+    /// </summary>
+    /// <param name="code">Weather station code</param>
+    /// <returns>Ok if successful</returns>
+    [HttpDelete("{code}")]
+    public IActionResult DeleteOperationalStatus(string code)
+    {
+        Console.WriteLine(DateTime.Now + " DeleteOperationalStatus: got request.");
+        try
+        {
+            _operationalStatusesRepository.Delete(code);
+            Console.WriteLine(DateTime.Now + " DeleteOperationalStatus: Operational status deleted.");
+            return Ok("Operational status deleted.");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(DateTime.Now + " DeleteOperationalStatus: " + e.Message);
+            return BadRequest(e.Message);
+        }
+    }
 }
