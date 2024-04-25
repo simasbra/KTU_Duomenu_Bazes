@@ -12,7 +12,6 @@ export function WeatherStationView() {
     const code = location.state?.code;
     const [station, setStation] = useState({});
     const [status, setStatus] = useState({});
-    const [city, setCity] = useState({});
 
     useEffect(() => {
         const fetchStation = () => {
@@ -34,7 +33,6 @@ export function WeatherStationView() {
                         dateTo: response.data.dateTo ? format(new Date(response.data.dateTo), 'yyyy-MM-dd') : null
                     };
                     setStatus(formattedData);
-                    console.log(formattedData);
                 })
                 .catch(error => {
                     console.error('Failed to fetch operational status', error);

@@ -79,4 +79,51 @@ public class OperationalStatusesRepository
             args.Add("?code", status.fk_WeatherStationCode);
         });
     }
+
+    /// <summary>
+    /// Inserts an operational status into the database
+    /// </summary>
+    /// <param name="status">Operational status to insert</param>
+    public void Insert(OperationalStatus status)
+    {
+        var query = status.DateTo == null
+            ? $@"INSERT INTO `{Config.TblPrefix}Operational_Statuses`
+            (
+                 Date_from,
+                 Status,
+                 fk_Weather_StationCode
+             )
+            VALUES
+            (
+                 ?dateFrom,
+                 ?status,
+                 ?code
+             )"
+            : $@"INSERT INTO `{Config.TblPrefix}Operational_Statuses`
+            (
+                 Date_from,
+                 Date_to,
+                 Status,
+                 fk_Weather_StationCode
+             )
+            VALUES
+            (
+                 ?dateFrom,
+                 ?dateTo,
+                 ?status,
+                 ?code
+             )";
+
+        Sql.Insert(query, args =>
+        {
+            args.Add("?dateFrom", status.DateFrom);
+            if (status.DateTo != null)
+            {
+                args.Add("?dateTo", status.DateTo);
+            }
+
+            args.Add("?status", status.Status);
+            args.Add("?code", status.fk_WeatherStationCode);
+        });
+    }
 }

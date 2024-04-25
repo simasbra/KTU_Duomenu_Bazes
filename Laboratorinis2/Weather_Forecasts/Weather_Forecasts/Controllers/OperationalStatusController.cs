@@ -84,4 +84,26 @@ public class OperationalStatusController : ControllerBase
             return BadRequest(e.Message);
         }
     }
+    
+    /// <summary>
+    /// Inserts an operational status
+    /// </summary>
+    /// <param name="status">Operational status to insert</param>
+    /// <returns>Ok if successful</returns>
+    [HttpPost("insert")]
+    public IActionResult InsertOperationalStatus([FromBody] OperationalStatus status)
+    {
+        Console.WriteLine(DateTime.Now + " InsertOperationalStatus: got request.");
+        try
+        {
+            _operationalStatusesRepository.Insert(status);
+            Console.WriteLine(DateTime.Now + " InsertOperationalStatus: Operational status inserted.");
+            return Ok("Operational status inserted.");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(DateTime.Now + " InsertOperationalStatus: " + e.Message);
+            return BadRequest(e.Message);
+        }
+    }
 }

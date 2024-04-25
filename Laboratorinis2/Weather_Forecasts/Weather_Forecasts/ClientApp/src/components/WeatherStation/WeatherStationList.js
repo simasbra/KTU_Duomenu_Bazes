@@ -41,7 +41,7 @@ export function WeatherStationList() {
     }
 
     const handleAdd = () => {
-        // navigate('/cities/new');
+        navigate('/weather-stations/add');
     }
     
     const handleView = (station) => {

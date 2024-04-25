@@ -125,4 +125,26 @@ public class WeatherStationController : ControllerBase
             return StatusCode(500, "Internal server error: " + ex.Message);
         }
     }
+    
+    /// <summary>
+    /// Inserts a new weather station
+    /// </summary>
+    /// <param name="station">Weather station to insert</param>
+    /// <returns>Ok if successful</returns>
+    [HttpPost("insert")]
+    public IActionResult InsertWeatherStation([FromBody] WeatherStation station)
+    {
+        Console.WriteLine(DateTime.Now + " InsertWeatherStation: got request.");
+        try
+        {
+            _weatherStationRepository.Insert(station);
+            Console.WriteLine(DateTime.Now + " InsertWeatherStation: Weather station inserted successfully.");
+            return Ok("Weather station inserted successfully.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(DateTime.Now + " InsertWeatherStation: " + ex.Message);
+            return StatusCode(500, "Internal server error: " + ex.Message);
+        }
+    }
 }

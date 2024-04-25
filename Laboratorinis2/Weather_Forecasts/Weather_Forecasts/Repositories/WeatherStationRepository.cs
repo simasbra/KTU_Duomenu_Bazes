@@ -140,4 +140,46 @@ public class WeatherStationRepository
 
 		return null;
 	}
+
+    /// <summary>
+    /// Inserts a weather station into the database
+    /// </summary>
+    /// <param name="station">Weather station to insert</param>
+	public void Insert(WeatherStation station)
+	{
+		var query = $@"INSERT INTO `{Config.TblPrefix}Weather_Stations`
+		(
+			Code,
+			Managing_organization,
+			Latitude,
+			Longitude,
+			Elevation,
+			Type,
+			fk_CityName,
+			fk_CityCountry
+		)
+		VALUES
+		(
+			?code,
+			?managingOrganization,
+			?latitude,
+			?longitude,
+			?elevation,
+			?type,
+			?fk_CityName,
+			?fk_CityCountry
+		)";
+
+		Sql.Insert(query, args =>
+		{
+			args.Add("?code", station.Code);
+			args.Add("?managingOrganization", station.ManagingOrganization);
+			args.Add("?latitude", station.Latitude);
+			args.Add("?longitude", station.Longitude);
+			args.Add("?elevation", station.Elevation);
+			args.Add("?type", station.Type);
+			args.Add("?fk_CityName", station.fk_CityName);
+			args.Add("?fk_CityCountry", station.fk_CityCountry);
+		});
+	}
 }
