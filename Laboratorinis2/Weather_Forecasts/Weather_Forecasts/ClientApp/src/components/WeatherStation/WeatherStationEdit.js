@@ -12,7 +12,7 @@ export function WeatherStationEdit() {
     const code = location.state?.code;
     const [station, setStation] = useState({});
     const [status, setStatus] = useState({});
-    const [cities, setCities] = useState({});
+    const [cities, setCities] = useState([]);
 
     useEffect(() => {
         const fetchStation = () => {
@@ -96,10 +96,19 @@ export function WeatherStationEdit() {
     }
 
     const handleStationInput = (event) => {
-        setStation({
-            ...station,
-            [event.target.name]: event.target.value
-        });
+        if (event.target.name === 'city') {
+            const [fk_cityName, fk_cityCountry] = event.target.value.split(', ');
+            setStation({
+                ...station,
+                fk_cityName,
+                fk_cityCountry
+            });
+        } else {
+            setStation({
+                ...station,
+                [event.target.name]: event.target.value
+            });
+        }
     }
 
     const handleStatusInput = (event) => {
@@ -110,10 +119,13 @@ export function WeatherStationEdit() {
     }
 
     const handleStatusCheck = (event) => {
-        setStatus({
-            ...status,
-            [event.target.name]: event.target.checked
-        });
+        if (event.target.name === 'status') {
+            setStatus({
+                ...status,
+                [event.target.name]: event.target.checked,
+                dateTo: event.target.checked ? null : status.dateTo
+            });
+        }
     }
 
     const handleCancel = () => {
@@ -143,6 +155,13 @@ export function WeatherStationEdit() {
                 <Input type="text" name="type" value={station?.type || ''}
                        onChange={handleStationInput}></Input>
                 <Label>City</Label>
+                <Select name="city" value={station?.city} onChange={handleStationInput}>
+                    {cities.map((city) => (
+                        <option key={city.name + ', ' + city.country} value={city.name + ', ' + city.country}>
+                            {city.name + ', ' + city.country}
+                        </option>
+                    ))}
+                </Select>
             </StationContainer>
             
             <StatusContainer>
@@ -207,4 +226,11 @@ const CheckBoxContainer = styled.div`
     display: grid;
     justify-content: start;
     align-items: center;
+`;
+
+const Select = styled.select`
+    margin: 5px 0;
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
 `;

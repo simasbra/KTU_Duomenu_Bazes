@@ -17,9 +17,9 @@ export function Home() {
                 <li>
                     <Link onClick={() => navigate('/weather-stations')}>Weather Stations</Link>
                 </li>
-                <li>
-                    <Link onClick={() => navigate('/weather-forecasts')}>Weather Forecasts</Link>
-                </li>
+                {/*<li>*/}
+                {/*    <Link onClick={() => navigate('/weather-forecasts')}>Weather Forecasts</Link>*/}
+                {/*</li>*/}
             </ul>
         </Container>
     );
