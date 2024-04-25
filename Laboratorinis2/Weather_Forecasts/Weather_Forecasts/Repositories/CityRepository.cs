@@ -33,11 +33,10 @@ public class CityRepository
     /// <summary>
     /// Updates a city in the database
     /// </summary>
-    /// <param name="city">City to update</param>
+    /// <param name="city">Updated city</param>
     public void Update(City city)
     {
-        var query =
-            $@"UPDATE `{Config.TblPrefix}Cities`
+        var query = $@"UPDATE `{Config.TblPrefix}Cities`
 			SET 
 			    Population=?population,
 			    Latitude=?latitude,

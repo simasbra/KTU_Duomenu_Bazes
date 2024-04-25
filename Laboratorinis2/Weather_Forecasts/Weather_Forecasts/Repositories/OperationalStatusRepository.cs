@@ -55,14 +55,28 @@ public class OperationalStatusesRepository
 
         return null;
     }
-
+    
     /// <summary>
-    /// Checks if the given date is the default minimum value.
+    /// Updates an operational status in the database
     /// </summary>
-    /// <param name="date">The date to check.</param>
-    /// <returns>True if it is the minimum date, false otherwise.</returns>
-    private bool IsDefaultDate(DateTime date)
+    /// <param name="status">Updated operational status</param>
+    public void Update(OperationalStatus status)
     {
-        return date == DateTime.MinValue;
+        var query = $@"UPDATE `{Config.TblPrefix}Operational_Statuses`
+            SET 
+                Date_from=?dateFrom,
+                Date_to=?dateTo,
+                Status=?status
+            
+            WHERE 
+                fk_Weather_StationCode=?code";
+        
+        Sql.Update(query, args =>
+        {
+            args.Add("?dateFrom", status.DateFrom);
+            args.Add("?dateTo", status.DateTo);
+            args.Add("?status", status.Status);
+            args.Add("?code", status.fk_WeatherStationCode);
+        });
     }
 }

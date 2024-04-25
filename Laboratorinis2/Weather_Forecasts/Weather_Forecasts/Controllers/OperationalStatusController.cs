@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Weather_Forecasts.Models;
 using Weather_Forecasts.Repositories;
 
 namespace Weather_Forecasts.Controllers;
@@ -60,5 +61,27 @@ public class OperationalStatusController : ControllerBase
         Console.WriteLine(DateTime.Now + " FindOperationalStatus: Operational status found for code " + code + ".");
         
         return Ok(status);
+    }
+    
+    /// <summary>
+    /// Updates an operational status
+    /// </summary>
+    /// <param name="status">Updated operational status</param>
+    /// <returns>Ok if successful</returns>
+    [HttpPut("{code}")]
+    public IActionResult UpdateOperationalStatus([FromBody] OperationalStatus status)
+    {
+        Console.WriteLine(DateTime.Now + " UpdateOperationalStatus: got request.");
+        try
+        {
+            _operationalStatusesRepository.Update(status);
+            Console.WriteLine(DateTime.Now + " UpdateOperationalStatus: Operational status updated.");
+            return Ok("Operational status updated.");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(DateTime.Now + " UpdateOperationalStatus: " + e.Message);
+            return BadRequest(e.Message);
+        }
     }
 }

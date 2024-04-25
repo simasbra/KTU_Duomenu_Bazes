@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Weather_Forecasts.Models;
 using Weather_Forecasts.Repositories;
 
 namespace Weather_Forecasts.Controllers;
@@ -101,5 +102,27 @@ public class WeatherStationController : ControllerBase
         Console.WriteLine(DateTime.Now + " FindWeatherStation: Weather station " + code + " found.");
         
         return Ok(station);
+    }
+    
+    /// <summary>
+    /// Updates information about a weather station
+    /// </summary>
+    /// <param name="station">Updated weather station</param>
+    /// <returns>Ok if successful</returns>
+    [HttpPut("{code}")]
+    public IActionResult UpdateWeatherStation([FromBody] WeatherStation station)
+    {
+        Console.WriteLine(DateTime.Now + " UpdateWeatherStation: got request.");
+        try
+        {
+            _weatherStationRepository.Update(station);
+            Console.WriteLine(DateTime.Now + " UpdateWeatherStation: Weather station updated successfully.");
+            return Ok("Weather station updated successfully.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(DateTime.Now + " UpdateWeatherStation: " + ex.Message);
+            return StatusCode(500, "Internal server error: " + ex.Message);
+        }
     }
 }

@@ -63,10 +63,36 @@ public class WeatherStationRepository
 	    return result;
     }
 
+    /// <summary>
+    /// Updates a weather station in the database
+    /// </summary>
+    /// <param name="station">Updated Weather station</param>
     public void Update(WeatherStation station)
     {
+	    var query = $@"UPDATE `{Config.TblPrefix}Weather_Stations`
+			SET
+				Managing_organization=?managingOrganization,
+				Latitude=?latitude,
+				Longitude=?longitude,
+				Elevation=?elevation,
+				Type=?type,
+				fk_CityName=?fk_CityName,
+				fk_CityCountry=?fk_CityCountry
+			WHERE
+				Code=?code";
 	    
-    }
+	    Sql.Update(query, args =>
+	    {
+		    args.Add("?managingOrganization", station.ManagingOrganization);
+		    args.Add("?latitude", station.Latitude);
+		    args.Add("?longitude", station.Longitude);
+		    args.Add("?elevation", station.Elevation);
+		    args.Add("?type", station.Type);
+		    args.Add("?fk_CityName", station.fk_CityName);
+		    args.Add("?fk_CityCountry", station.fk_CityCountry);
+		    args.Add("?code", station.Code);
+	    });
+	}
     
     /// <summary>
     /// Deletes a weather station from the database by code

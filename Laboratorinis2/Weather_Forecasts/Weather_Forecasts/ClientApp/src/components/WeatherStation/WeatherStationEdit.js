@@ -34,7 +34,6 @@ export function WeatherStationEdit() {
                         dateTo: response.data.dateTo ? format(new Date(response.data.dateTo), 'yyyy-MM-dd') : null
                     };
                     setStatus(formattedData);
-                    console.log(formattedData);
                 })
                 .catch(error => {
                     console.error('Failed to fetch operational status', error);
@@ -60,26 +59,40 @@ export function WeatherStationEdit() {
         fetchCities();
     }, []);
 
-    const handleSave = (station) => {
-
+    const handleSave = (station, status) => {
+        if (status.status === 'true') {
+            status.status = true;
+        } else if (status.status === 'false') {
+            status.status = false;
+        }
+        if (status.dateTo === '') {
+            status.dateTo = null;
+        }
+        
+        if (window.confirm(`Are you sure you want to save ${station.code}?`)) {
+            axios.put(`api/weatherStation/${encodeURIComponent(station.code)}`, station, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .catch(error => {
+                    console.error('Failed to update the weather station' + error);
+                });
+            
+            axios.put(`api/operationalStatus/${encodeURIComponent(station.code)}`, status, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => {
+                    alert('Weather station updated successfully');
+                    navigate(`/weather-stations`,);
+                })
+                .catch(error => {
+                    console.error('Failed to update the operational status' + error);
+                });
+        }
     }
-
-    // const handleSave = (city) => {
-    //     if (window.confirm(`Are you sure you want to save ${city.name}?`)) {
-    //         axios.put(`api/city/${encodeURIComponent(city.name)}/${encodeURIComponent(city.country)}`, city, {
-    //             headers: {
-    //                 'Content-Type': 'application/json'
-    //             }
-    //         })
-    //             .then(response => {
-    //                 alert('City updated successfully');
-    //                 navigate(`/cities`,);
-    //             })
-    //             .catch(error => {
-    //                 console.error('Failed to update the city' + error);
-    //             });
-    //     }
-    // }
 
     const handleStationInput = (event) => {
         setStation({
@@ -121,6 +134,7 @@ export function WeatherStationEdit() {
                 <Label>Type</Label>
                 <Input type="text" name="type" value={station?.type || ''}
                        onChange={handleStationInput}></Input>
+                <Label>City</Label>
             </StationContainer>
             
             <StatusContainer>
@@ -137,7 +151,7 @@ export function WeatherStationEdit() {
             </StatusContainer>
             
             <ActionsContainer>
-                <Button onClick={() => handleSave(station)}>Save</Button>
+                <Button onClick={() => handleSave(station, status)}>Save</Button>
                 <Button onClick={() => handleCancel()}>Cancel</Button>
             </ActionsContainer>
         </Container>
