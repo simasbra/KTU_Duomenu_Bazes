@@ -19,16 +19,16 @@ export class NavMenu extends Component {
                     <NavItem>
                         <StyledLink to="/weather-stations">Weather Stations</StyledLink>
                     </NavItem>
-                    {/*<NavItem>*/}
-                    {/*    <StyledLink to="/weather-forecasts">Weather Forecasts</StyledLink>*/}
-                    {/*</NavItem>*/}
+                    <NavItem>
+                        <StyledLink to="/weather-forecasts">Weather Forecasts</StyledLink>
+                    </NavItem>
                 </NavList>
             </Navbar>
         );
     }
 }
 
-const Navbar = styled.div`
+const Navbar = styled.div`     
     background-color: #f3f6ff;
     width: 100%;
     height: 50px;
