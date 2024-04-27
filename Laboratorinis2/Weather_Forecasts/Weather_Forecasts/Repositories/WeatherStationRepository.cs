@@ -148,27 +148,9 @@ public class WeatherStationRepository
 	public void Insert(WeatherStation station)
 	{
 		var query = $@"INSERT INTO `{Config.TblPrefix}Weather_Stations`
-		(
-			Code,
-			Managing_organization,
-			Latitude,
-			Longitude,
-			Elevation,
-			Type,
-			fk_CityName,
-			fk_CityCountry
-		)
+		(Code, Managing_organization, Latitude, Longitude, Elevation, Type, fk_CityName, fk_CityCountry)
 		VALUES
-		(
-			?code,
-			?managingOrganization,
-			?latitude,
-			?longitude,
-			?elevation,
-			?type,
-			?fk_CityName,
-			?fk_CityCountry
-		)";
+		(?code, ?managingOrganization, ?latitude, ?longitude, ?elevation, ?type, ?fk_CityName, ?fk_CityCountry)";
 
 		Sql.Insert(query, args =>
 		{

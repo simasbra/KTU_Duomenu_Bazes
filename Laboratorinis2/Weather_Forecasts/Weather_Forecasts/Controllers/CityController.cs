@@ -91,8 +91,8 @@ public class CityController : ControllerBase
     /// </summary>
     /// <param name="city">New city to add</param>
     /// <returns>Ok if successful</returns>
-    [HttpPost]
-    public IActionResult AddCity([FromBody] City city)
+    [HttpPost("insert")]
+    public IActionResult InsertCity([FromBody] City city)
     {
         Console.WriteLine(DateTime.Now + " AddCity: got request.");
         try

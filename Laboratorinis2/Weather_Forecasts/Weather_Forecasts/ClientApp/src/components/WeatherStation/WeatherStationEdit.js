@@ -2,7 +2,16 @@ import React, {useEffect, useState} from 'react';
 import {useLocation} from 'react-router-dom';
 import styled from 'styled-components';
 import {useNavigate} from 'react-router-dom';
-import {Button, Actions, Input, Header, ActionsContainer} from '../Shared/Components';
+import {
+    Button,
+    Input,
+    Header,
+    ActionsContainer,
+    Label,
+    CheckBoxContainer,
+    CheckBox,
+    Select
+} from '../Shared/Components';
 import axios from '../../axiosConfig';
 import {format} from 'date-fns';
 
@@ -199,10 +208,6 @@ const Container = styled.div`
     display: grid;
 `;
 
-const Label = styled.label`
-    margin: 5px 0 0 0;
-`;
-
 const StationContainer = styled.div`
     padding: 0 0 20px 0;
     margin: 0;
@@ -213,24 +218,4 @@ const StatusContainer = styled.div`
     padding: 0;
     margin: 0;
     display: grid;
-`;
-
-const CheckBox = styled.input`
-    margin: 5px 0 0 0;
-    padding: 0;
-    width: 20px;
-    height: 20px;
-`;
-
-const CheckBoxContainer = styled.div`
-    display: grid;
-    justify-content: start;
-    align-items: center;
-`;
-
-const Select = styled.select`
-    margin: 5px 0;
-    padding: 8px 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
 `;

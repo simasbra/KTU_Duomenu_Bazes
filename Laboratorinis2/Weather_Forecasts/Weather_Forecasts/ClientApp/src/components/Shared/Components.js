@@ -79,3 +79,27 @@ export const ActionsContainer = styled.div`
     gap: 10px;
     background-color: transparent;
 `;
+
+export const CheckBox = styled.input`
+    margin: 5px 0 0 0;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+`;
+
+export const CheckBoxContainer = styled.div`
+    display: grid;
+    justify-content: start;
+    align-items: center;
+`;
+
+export const Select = styled.select`
+    margin: 5px 0;
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+`;
+
+export const Label = styled.label`
+    margin: 5px 0 0 0;
+`;

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useLocation} from 'react-router-dom';
 import styled from 'styled-components';
 import {useNavigate} from 'react-router-dom';
-import {Button, Actions, Input, Header, ActionsContainer} from '../Shared/Components';
+import {Button, Actions, Input, Header, ActionsContainer, Label} from '../Shared/Components';
 import axios from '../../axiosConfig';
 import {format} from 'date-fns';
 
@@ -10,25 +10,29 @@ export function WeatherForecastView() {
     const navigate = useNavigate();
     const location = useLocation();
     const code = location.state?.code;
+    const stationCode = location.state?.station;
     const [station, setStation] = useState({});
-    const [status, setStatus] = useState({});
     const [forecast, setForecast] = useState({});
 
     useEffect(() => {
-        // const fetchStation = () => {
-        //     axios.get(`api/weatherStation/${code}`)
-        //         .then(response => {
-        //             setStation(response.data);
-        //         })
-        //         .catch(error => {
-        //             console.error('Failed to fetch weather stations', error);
-        //         });
-        // };
+        const fetchStation = () => {
+            axios.get(`api/weatherStation/${stationCode}`)
+                .then(response => {
+                    setStation(response.data);
+                })
+                .catch(error => {
+                    console.error('Failed to fetch weather station', error);
+                });
+        };
         
         const fetchWeatherForecast = () => {
             axios.get(`api/weatherForecast/${code}`)
                 .then(response => {
-                    setForecast(response.data);
+                    const formattedData = {
+                        ...response.data,
+                        date: format(new Date(response.data.date), 'yyyy-MM-dd'),
+                    };
+                    setForecast(formattedData);
                 })
                 .catch(error => {
                     console.error('Failed to fetch weather forecast', error);
@@ -36,7 +40,7 @@ export function WeatherForecastView() {
         }
 
         fetchWeatherForecast();
-        // fetchStation();
+        fetchStation();
     }, []);
 
     const handleEdit = (station) => {
@@ -49,7 +53,7 @@ export function WeatherForecastView() {
     return (
         <Container>
             <ForecastContainer>
-                <Header>Weather Forecast {forecast?.code} Information</Header>
+                <Header>{forecast?.code} Weather Forecast Information</Header>
                 <Label>Code</Label>
                 <Input type="text" name="code" value={forecast?.code} readOnly></Input>
                 <Label>Date</Label>
@@ -81,10 +85,10 @@ export function WeatherForecastView() {
                 <Input type="text" name="elevation" value={station?.elevation || ''} readOnly></Input>
                 <Label>Type</Label>
                 <Input type="text" name="type" value={station?.type || ''} readOnly></Input>
-                {/*<Label>City</Label>*/}
-                {/*<Input type="text" name="city" value={station?.fk_CityName || ''} readOnly></Input>*/}
-                {/*<Label>Country</Label>*/}
-                {/*<Input type="text" name="country" value={station?.fk_CityCountry || ''} readOnly></Input>*/}
+                <Label>City</Label>
+                <Input type="text" name="city" value={station?.fk_CityName || ''} readOnly></Input>
+                <Label>Country</Label>
+                <Input type="text" name="country" value={station?.fk_CityCountry || ''} readOnly></Input>
             </StationContainer>
 
             <ActionsContainer>
@@ -101,10 +105,6 @@ const Container = styled.div`
     padding: 0 10px;
     margin: 0;
     display: grid;
-`;
-
-const Label = styled.label`
-    margin: 5px 0 0 0;
 `;
 
 const StationContainer = styled.div`

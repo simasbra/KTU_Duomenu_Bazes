@@ -126,31 +126,9 @@ public class CityRepository
     public void Insert(City city)
     {
         var query = $@"INSERT INTO `{Config.TblPrefix}Cities`
-        (
-            Name,
-            Country,
-            Population,
-            Latitude,
-            Longitude,
-            Elevation,
-            Average_annual_temperature,
-            Average_annual_precipitation,
-            Founding_date,
-            Time_zone
-        )
+        (Name, Country, Population, Latitude, Longitude, Elevation, Average_annual_temperature, Average_annual_precipitation, Founding_date, Time_zone)
         VALUES
-        (
-            ?name,
-            ?country,
-            ?population,
-            ?latitude,
-            ?longitude,
-            ?elevation,
-            ?averageAnnualTemperature,
-            ?averageAnnualPrecipitation,
-            ?foundingDate,
-            ?timeZone
-        )";
+        (?name, ?country, ?population, ?latitude, ?longitude, ?elevation, ?averageAnnualTemperature, ?averageAnnualPrecipitation, ?foundingDate, ?timeZone)";
 
         Sql.Insert(query, args =>
         {

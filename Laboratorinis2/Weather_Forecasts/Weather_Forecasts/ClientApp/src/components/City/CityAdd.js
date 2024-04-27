@@ -12,7 +12,7 @@ export function CityAdd() {
 
     const handleSave = (city) => {
         if (window.confirm(`Are you sure you want to save ${city.name}?`)) {
-            axios.post(`api/city`, city, {
+            axios.post(`api/city/insert`, city, {
                 headers: {
                     'Content-Type': 'application/json'
                 }

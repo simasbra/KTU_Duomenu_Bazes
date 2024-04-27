@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Weather_Forecasts.Models;
 using Weather_Forecasts.Repositories;
 
 namespace Weather_Forecasts.Controllers;
@@ -82,5 +83,27 @@ public class WeatherForecastController : ControllerBase
         Console.WriteLine(DateTime.Now + " FindWeatherForecast: Weather forecast found.");
 
         return Ok(forecast);
+    }
+
+    /// <summary>
+    /// Adds a new weather forecast
+    /// </summary>
+    /// <param name="forecast">Forecast to add</param>
+    /// <returns>Ok if successful</returns>
+    [HttpPost("insert")]
+    public IActionResult InsertWeatherForecast(WeatherForecast forecast)
+    {
+        Console.WriteLine(DateTime.Now + " AddWeatherForecast: got request.");
+        try
+        {
+            _weatherForecastRepository.Insert(forecast);
+            Console.WriteLine(DateTime.Now + " AddWeatherForecast: Weather forecast added.");
+            return Ok("Weather forecast added");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(DateTime.Now + " AddWeatherForecast: Error adding weather forecast: " + e.Message);
+            return BadRequest("Error adding weather forecast");
+        }
     }
 }

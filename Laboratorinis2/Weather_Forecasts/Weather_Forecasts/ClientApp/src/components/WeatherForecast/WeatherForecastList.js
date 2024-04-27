@@ -34,10 +34,11 @@ export function WeatherForecastList() {
     }
     
     const handleAdd = () => {
+        navigate('/weather-forecasts/add');
     }
     
     const handleView = (forecast) => {
-        navigate(`/weather-forecasts/${forecast.code}`, {state: {code: forecast.code}})
+        navigate(`/weather-forecasts/${forecast.code}`, {state: {code: forecast.code, station: forecast.weatherStationCode}})
     }
     
     return (
@@ -66,9 +67,9 @@ export function WeatherForecastList() {
                         <td>{forecast.weatherStationCode}</td>
                         <td>
                             <Actions>
+                                <Button onClick={() => handleView(forecast)}>View</Button>
                                 <Button onClick={() => handleEdit(forecast)}>Edit</Button>
                                 <DeleteButton onClick={() => handleDelete(forecast)}>Delete</DeleteButton>
-                                <Button onClick={() => handleView(forecast)}>View</Button>
                             </Actions>
                         </td>
                     </tr>

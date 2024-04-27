@@ -87,4 +87,22 @@ public class WeatherForecastRepository
 
         return null;
     }
+    
+    public void Insert(WeatherForecast forecast)
+    {
+        var query = $@"INSERT INTO `{Config.TblPrefix}Weather_Forecasts`
+            (Code, Date, Source, Confidence, fk_CityName, fk_CityCountry, fk_Weather_StationCode)
+            VALUES
+            (?code, ?date, ?source, ?confidence, ?fk_CityName, ?fk_CityCountry, ?fk_Weather_StationCode)";
+        Sql.Insert(query, args =>
+        {
+            args.Add("?code", forecast.Code);
+            args.Add("?date", forecast.Date);
+            args.Add("?source", forecast.Source);
+            args.Add("?confidence", forecast.Confidence);
+            args.Add("?fk_CityName", forecast.fk_CityName);
+            args.Add("?fk_CityCountry", forecast.fk_CityCountry);
+            args.Add("?fk_Weather_StationCode", forecast.fk_WeatherStationCode);
+        });
+    }
 }

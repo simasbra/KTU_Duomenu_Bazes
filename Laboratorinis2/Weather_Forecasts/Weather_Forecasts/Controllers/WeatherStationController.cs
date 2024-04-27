@@ -95,7 +95,7 @@ public class WeatherStationController : ControllerBase
         var station = _weatherStationRepository.Find(code);
         if (station == null)
         {
-            Console.WriteLine(DateTime.Now + "FindWeatherStation: Weather station " + code + " not found.");
+            Console.WriteLine(DateTime.Now + " FindWeatherStation: Weather station " + code + " not found.");
             return NotFound("Weather station not found");
         }
 

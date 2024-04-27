@@ -88,31 +88,13 @@ public class OperationalStatusesRepository
     {
         var query = status.DateTo == null
             ? $@"INSERT INTO `{Config.TblPrefix}Operational_Statuses`
-            (
-                 Date_from,
-                 Status,
-                 fk_Weather_StationCode
-             )
+            (Date_from, Status, fk_Weather_StationCode)
             VALUES
-            (
-                 ?dateFrom,
-                 ?status,
-                 ?code
-             )"
+            (?dateFrom, ?status, ?code)"
             : $@"INSERT INTO `{Config.TblPrefix}Operational_Statuses`
-            (
-                 Date_from,
-                 Date_to,
-                 Status,
-                 fk_Weather_StationCode
-             )
+            (Date_from, Date_to, Status, fk_Weather_StationCode)
             VALUES
-            (
-                 ?dateFrom,
-                 ?dateTo,
-                 ?status,
-                 ?code
-             )";
+            (?dateFrom, ?dateTo, ?status, ?code)";
 
         Sql.Insert(query, args =>
         {

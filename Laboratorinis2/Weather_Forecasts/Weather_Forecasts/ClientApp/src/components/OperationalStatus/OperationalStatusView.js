@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useLocation} from 'react-router-dom';
 import styled from 'styled-components';
 import {useNavigate} from 'react-router-dom';
-import {Button, Actions, Input, Header, DeleteButton, ActionsContainer} from '../Shared/Components';
+import {Button, Actions, Input, Header, DeleteButton, ActionsContainer, Label} from '../Shared/Components';
 import axios from '../../axiosConfig';
 import {format} from 'date-fns';
 
@@ -79,9 +79,5 @@ const Container = styled.div`
     padding: 0 10px;
     margin: 0;
     display: grid;
-`;
-
-const Label = styled.label`
-    margin: 5px 0 0 0;
 `;
 
