@@ -98,7 +98,6 @@ export function WeatherStationList() {
 
 export default WeatherStationList;
 
-
 const Container = styled.div`
     padding: 0 10px;
     margin: 0;

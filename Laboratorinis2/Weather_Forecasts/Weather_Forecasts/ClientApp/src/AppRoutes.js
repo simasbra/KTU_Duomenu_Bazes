@@ -9,6 +9,8 @@ import WeatherStationView from './components/WeatherStation/WeatherStationView';
 import WeatherStationAdd from './components/WeatherStation/WeatherStationAdd';
 import OperationalStatusView from './components/OperationalStatus/OperationalStatusView';
 import OperationalStatusEdit from './components/OperationalStatus/OperationalStatusEdit';
+import WeatherForecastList from './components/WeatherForecast/WeatherForecastList';
+import WeatherForecastView from './components/WeatherForecast/WeatherForecastView';
 
 const AppRoutes = [
     {
@@ -62,6 +64,15 @@ const AppRoutes = [
     {
         path: "/weather-stations/:code/operational-status/:id/edit",
         element: <OperationalStatusEdit/>
+    },
+    // Weather Forecasts:
+    {
+        path: "/weather-forecasts",
+        element: <WeatherForecastList/>
+    },
+    {
+        path: "/weather-forecasts/:code",
+        element: <WeatherForecastView/>
     }
 ];
 
