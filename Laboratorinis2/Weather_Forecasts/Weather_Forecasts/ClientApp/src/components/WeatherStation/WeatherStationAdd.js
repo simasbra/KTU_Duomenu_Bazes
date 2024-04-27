@@ -52,7 +52,7 @@ export function WeatherStationEdit() {
                 }
             })
                 .catch(error => {
-                    console.error('Failed to update the weather station' + error);
+                    console.error('Failed to add the weather station' + error);
                 });
 
             axios.post(`api/operationalStatus/insert`, payload, {
@@ -61,11 +61,11 @@ export function WeatherStationEdit() {
                 }
             })
                 .then(response => {
-                    alert('Weather station updated successfully');
+                    alert('Weather station added successfully');
                     navigate(`/weather-stations`,);
                 })
                 .catch(error => {
-                    console.error('Failed to update the operational status' + error);
+                    console.error('Failed to add the operational status' + error);
                 });
         }
     }

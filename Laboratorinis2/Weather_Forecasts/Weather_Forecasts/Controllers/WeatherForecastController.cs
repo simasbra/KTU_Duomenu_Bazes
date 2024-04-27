@@ -98,11 +98,13 @@ public class WeatherForecastController : ControllerBase
         {
             _weatherForecastRepository.Insert(forecast);
             Console.WriteLine(DateTime.Now + " AddWeatherForecast: Weather forecast added.");
+            
             return Ok("Weather forecast added");
         }
         catch (Exception e)
         {
             Console.WriteLine(DateTime.Now + " AddWeatherForecast: Error adding weather forecast: " + e.Message);
+            
             return BadRequest("Error adding weather forecast");
         }
     }

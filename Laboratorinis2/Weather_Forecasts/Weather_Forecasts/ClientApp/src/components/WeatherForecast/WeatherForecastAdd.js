@@ -2,14 +2,12 @@ import React, {useEffect, useState} from 'react';
 import {useLocation} from 'react-router-dom';
 import styled from 'styled-components';
 import {useNavigate} from 'react-router-dom';
-import {Button, Actions, Input, Header, ActionsContainer, Label, Select} from '../Shared/Components';
+import {Button, Input, Header, ActionsContainer, Label, Select} from '../Shared/Components';
 import axios from '../../axiosConfig';
 import {format} from 'date-fns';
 
 export function WeatherForecastAdd() {
     const navigate = useNavigate();
-    const location = useLocation();
-    const code = location.state?.code;
     const [forecast, setForecast] = useState({});
     const [cities, setCities] = useState([]);
     const [stations, setStations] = useState([]);
@@ -46,11 +44,11 @@ export function WeatherForecastAdd() {
 
     const handleInput = (event) => {
         if (event.target.name === 'city') {
-            const [fk_cityName, fk_cityCountry] = event.target.value.split(', ');
+            const [fk_CityName, fk_CityCountry] = event.target.value.split(', ');
             setForecast({
                 ...forecast,
-                fk_cityName,
-                fk_cityCountry
+                fk_CityName,
+                fk_CityCountry
             });
         } else if (event.target.name === 'station') {
             setForecast({
@@ -69,24 +67,37 @@ export function WeatherForecastAdd() {
         navigate(`/weather-forecasts`,);
     }
     
-    const handleSave = () => {
-        
+    const handleSave = (forecast) => {
+        if (window.confirm(`Are you sure you want to save ${forecast.code}?`)) {
+            axios.post(`api/weatherForecast/insert`, forecast, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => {
+                    alert('Weather forecast added successfully');
+                    navigate(`/weather-forecasts`,);
+                })
+                .catch(error => {
+                    console.error('Failed to add the weather forecast' + error);
+                });
+        }
     }
 
     return (
         <Container>
             <ForecastContainer>
-                <Header>{forecast?.code} Weather Forecast Information</Header>
+                <Header>Add Weather Forecast</Header>
                 <Label>Code</Label>
-                <Input type="text" name="code" value={forecast?.code} onChang={handleInput}></Input>
+                <Input type="text" name="code" value={forecast?.code} onChange={handleInput}></Input>
                 <Label>Date</Label>
-                <Input type="text" name="date" value={forecast?.date} onChang={handleInput}></Input>
+                <Input type="text" name="date" value={forecast?.date} onChange={handleInput}></Input>
                 <Label>Source</Label>
-                <Input type="text" name="source" value={forecast?.source} onChang={handleInput}></Input>
+                <Input type="text" name="source" value={forecast?.source} onChange={handleInput}></Input>
                 <Label>Confidence</Label>
-                <Input type="text" name="confidence" value={forecast?.confidence} onChang={handleInput}></Input>
+                <Input type="text" name="confidence" value={forecast?.confidence} onChange={handleInput}></Input>
                 <Label>Weather Station</Label>
-                <Select type="text" name="station" value={forecast?.station} onChang={handleInput}>
+                <Select type="text" name="station" value={forecast?.station} onChange={handleInput}>
                     {stations.map((station) => (
                         <option key={station.code} value={station.code}>
                             {station.code}
@@ -94,7 +105,7 @@ export function WeatherForecastAdd() {
                     ))}
                 </Select>
                 <Label>City</Label>
-                <Select type="text" name="city" value={forecast?.city} onChang={handleInput}>
+                <Select type="text" name="city" value={forecast?.city} onChange={handleInput}>
                     {cities.map((city) => (
                         <option key={city.name + city.country} value={city.name + ', ' + city.country}>
                             {city.name + ', ' + city.country}
