@@ -28,9 +28,21 @@ export function WeatherForecastList() {
     }, []);
     
     const handleEdit = (forecast) => {
+        navigate(`/weather-forecasts/${forecast.code}/edit`, {state: {code: forecast.code, station: forecast.weatherStationCode}})
     }
     
     const handleDelete = (forecast) => {
+        if (window.confirm('Are you sure you want to delete this weather forecast?')) {
+            axios.delete(`api/weatherForecast/${forecast.code}`)
+                .then(() => {
+                    window.alert('Weather forecast deleted successfully');
+                    setForecasts(forecasts.filter(item => item.code !== forecast.code));
+                })
+                .catch(error => {
+                    window.alert('Failed to delete weather forecast');
+                    console.error('Failed to delete weather forecast', error);
+                });
+        }
     }
     
     const handleAdd = () => {

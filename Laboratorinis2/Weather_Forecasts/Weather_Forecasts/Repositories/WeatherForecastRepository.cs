@@ -88,6 +88,10 @@ public class WeatherForecastRepository
         return null;
     }
     
+    /// <summary>
+    /// Inserts a new weather forecast into the database
+    /// </summary>
+    /// <param name="forecast">Weather forecast to insert</param>
     public void Insert(WeatherForecast forecast)
     {
         var query = $@"INSERT INTO `{Config.TblPrefix}Weather_Forecasts`
@@ -103,6 +107,19 @@ public class WeatherForecastRepository
             args.Add("?fk_CityName", forecast.fk_CityName);
             args.Add("?fk_CityCountry", forecast.fk_CityCountry);
             args.Add("?fk_Weather_StationCode", forecast.fk_WeatherStationCode);
+        });
+    }
+    
+    /// <summary>
+    /// Deletes a weather forecast from the database by code
+    /// </summary>
+    /// <param name="code">Weather forecast code</param>
+    public void Delete(string code)
+    {
+        var query = $"DELETE FROM `{Config.TblPrefix}Weather_Forecasts` WHERE Code = ?code";
+        Sql.Delete(query, args =>
+        {
+            args.Add("?code", code);
         });
     }
 }

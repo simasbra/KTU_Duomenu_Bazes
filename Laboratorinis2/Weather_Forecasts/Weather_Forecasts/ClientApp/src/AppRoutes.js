@@ -12,6 +12,7 @@ import OperationalStatusEdit from './components/OperationalStatus/OperationalSta
 import WeatherForecastList from './components/WeatherForecast/WeatherForecastList';
 import WeatherForecastView from './components/WeatherForecast/WeatherForecastView';
 import WeatherForecastAdd from './components/WeatherForecast/WeatherForecastAdd';
+import WeatherForecastEdit from './components/WeatherForecast/WeatherForecastEdit';
 
 const AppRoutes = [
     {
@@ -74,6 +75,10 @@ const AppRoutes = [
     {
         path: "/weather-forecasts/:code",
         element: <WeatherForecastView/>
+    },
+    {
+        path: "/weather-forecasts/:code/edit",
+        element: <WeatherForecastEdit/>
     },
     {
         path: "/weather-forecasts/add",

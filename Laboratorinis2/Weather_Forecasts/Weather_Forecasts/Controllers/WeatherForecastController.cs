@@ -108,4 +108,28 @@ public class WeatherForecastController : ControllerBase
             return BadRequest("Error adding weather forecast");
         }
     }
+
+    /// <summary>
+    /// Delets a weather forecast by code
+    /// </summary>
+    /// <param name="code">Weather forecast to delete</param>
+    /// <returns>Ok if successful</returns>
+    [HttpDelete("{code}")]
+    public IActionResult DeleteWeatherForecast(string code)
+    {
+        Console.WriteLine(DateTime.Now + " DeleteWeatherForecast: got request.");
+        try
+        {
+            _weatherForecastRepository.Delete(code);
+            Console.WriteLine(DateTime.Now + " DeleteWeatherForecast: Weather forecast deleted.");
+
+            return Ok("Weather forecast deleted");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(DateTime.Now + " DeleteWeatherForecast: Error deleting weather forecast: " + e.Message);
+
+            return BadRequest("Error deleting weather forecast");
+        }
+    }
 }
