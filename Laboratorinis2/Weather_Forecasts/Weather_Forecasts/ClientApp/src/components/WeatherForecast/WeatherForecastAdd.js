@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useLocation} from 'react-router-dom';
 import styled from 'styled-components';
 import {useNavigate} from 'react-router-dom';
-import {Button, Input, Header, ActionsContainer, Label, Select} from '../Shared/Components';
+import {Button, Input, Header, ActionsContainer, Label, Select, DatePicker} from '../Shared/Components';
 import axios from '../../axiosConfig';
 import {format} from 'date-fns';
 
@@ -84,6 +84,13 @@ export function WeatherForecastAdd() {
         }
     }
 
+    const handleDateChange = (date) => {
+        setForecast({
+            ...forecast,
+            date: format(date, 'yyyy-MM-dd')
+        });
+    }
+
     return (
         <Container>
             <ForecastContainer>
@@ -91,7 +98,13 @@ export function WeatherForecastAdd() {
                 <Label>Code</Label>
                 <Input type="text" name="code" value={forecast?.code} onChange={handleInput}></Input>
                 <Label>Date</Label>
-                <Input type="text" name="date" value={forecast?.date} onChange={handleInput}></Input>
+                <DatePicker
+                    selected={forecast?.date ? new Date(forecast?.date) : null}
+                    onChange={handleDateChange}
+                    dateFormat="yyyy-MM-dd"
+                    className="input"
+                    popperPlacement="bottom-start"
+                />
                 <Label>Source</Label>
                 <Input type="text" name="source" value={forecast?.source} onChange={handleInput}></Input>
                 <Label>Confidence</Label>

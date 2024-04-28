@@ -1,16 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {useNavigate} from 'react-router-dom';
-import {
-    Button,
-    Input,
-    Header,
-    ActionsContainer,
-    Label,
-    CheckBox,
-    CheckBoxContainer,
-    Select
-} from '../Shared/Components';
+import {Button, Input, Header, ActionsContainer, Label, CheckBox, CheckBoxContainer, Select, DatePicker} from '../Shared/Components';
 import axios from '../../axiosConfig';
 import {format} from 'date-fns';
 
@@ -107,6 +98,20 @@ export function WeatherStationEdit() {
         navigate(`/weather-stations`,);
     }
 
+    const handleDateFromChange = (date) => {
+        setStatus({
+            ...status,
+            dateFrom: format(date, 'yyyy-MM-dd')
+        });
+    };
+
+    const handleDateToChange = (date) => {
+        setStatus({
+            ...status,
+            dateTo: format(date, 'yyyy-MM-dd')
+        });
+    };
+
     return (
         <Container>
             <StationContainer>
@@ -142,8 +147,13 @@ export function WeatherStationEdit() {
             <StatusContainer>
                 <Header>Add Operational status of Weather Station</Header>
                 <Label>Operational from</Label>
-                <Input type="text" name="dateFrom" value={status?.dateFrom} 
-                       onChange={handleStatusInput}></Input>
+                <DatePicker
+                    selected={status?.dateFrom ? new Date(status?.dateFrom) : null}
+                    onChange={handleDateFromChange}
+                    dateFormat="yyyy-MM-dd"
+                    className="input"
+                    popperPlacement="bottom-start"
+                />
                 <CheckBoxContainer>
                     <Label>Status (working?)</Label>
                     <CheckBox type="checkbox" name="status" checked={status?.status || false}
@@ -152,8 +162,13 @@ export function WeatherStationEdit() {
                 {!status?.status && (
                     <>
                         <Label>Operational until</Label>
-                        <Input type="text" name="dateTo" value={status?.dateTo}
-                               onChange={handleStatusInput}></Input>
+                        <DatePicker
+                            selected={status?.dateTo ? new Date(status?.dateTo) : null}
+                            onChange={handleDateToChange}
+                            dateFormat="yyyy-MM-dd"
+                            className="input"
+                            popperPlacement="bottom-start"
+                        />
                     </>
                 )}
             </StatusContainer>

@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import Date from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 export const Button = styled.button`
     padding: 4px 8px;
@@ -102,4 +104,12 @@ export const Select = styled.select`
 
 export const Label = styled.label`
     margin: 5px 0 0 0;
+`;
+
+export const DatePicker = styled(Date)`
+    padding: 8px 10px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 100%;
 `;

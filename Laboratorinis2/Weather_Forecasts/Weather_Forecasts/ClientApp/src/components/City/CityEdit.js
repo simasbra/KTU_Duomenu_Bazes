@@ -2,8 +2,9 @@ import React from 'react';
 import {useLocation} from 'react-router-dom';
 import styled from 'styled-components';
 import {useNavigate} from 'react-router-dom';
-import {Button, Actions, Input, Header, ActionsContainer} from '../Shared/Components';
+import {Button, Actions, Input, Header, ActionsContainer, DatePicker} from '../Shared/Components';
 import axios from '../../axiosConfig';
+import {format} from 'date-fns';
 
 export function CityEdit() {
     const navigate = useNavigate();
@@ -37,6 +38,13 @@ export function CityEdit() {
     const handleCancel = () => {
         navigate(`/cities`,);
     }
+
+    const handleDateChange = (date) => {
+        setCity({
+            ...city,
+            foundingDate: format(date, 'yyyy-MM-dd')
+        });
+    };
     
     return (
         <Container>
@@ -66,8 +74,13 @@ export function CityEdit() {
             <Input type="text" name="averageAnnualPrecipitation" value={city?.averageAnnualPrecipitation || ''}
                    onChange={handleInput}></Input>
             <Label>Founding date</Label>
-            <Input type="text" name="foundingDate" value={city?.foundingDate || ''}
-                   onChange={handleInput}></Input>
+            <DatePicker
+                selected={city?.foundingDate ? new Date(city.foundingDate) : null}
+                onChange={handleDateChange}
+                dateFormat="yyyy-MM-dd"
+                className="input"
+                popperPlacement="bottom-start"
+            />
             <Label>Time Zone</Label>
             <Input type="text" name="timeZone" value={city?.timeZone || ''}
                    onChange={handleInput}></Input>
