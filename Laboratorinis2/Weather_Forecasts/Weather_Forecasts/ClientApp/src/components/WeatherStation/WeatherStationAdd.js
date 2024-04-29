@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
-import {useNavigate} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import {Button, Input, Header, ActionsContainer, Label, CheckBox, CheckBoxContainer, Select, DatePicker} from '../Shared/Components';
 import axios from '../../axiosConfig';
 import {format} from 'date-fns';
@@ -10,6 +10,7 @@ export function WeatherStationEdit() {
     const [station, setStation] = useState({});
     const [status, setStatus] = useState({});
     const [cities, setCities] = useState([]);
+    const backUrl = useLocation().state?.backUrl;
 
     useEffect(() => {
 
@@ -53,7 +54,7 @@ export function WeatherStationEdit() {
             })
                 .then(response => {
                     alert('Weather station added successfully');
-                    navigate(`/weather-stations`,);
+                    navigate(`${backUrl}`,);
                 })
                 .catch(error => {
                     console.error('Failed to add the operational status' + error);
@@ -95,7 +96,7 @@ export function WeatherStationEdit() {
 }
 
     const handleCancel = () => {
-        navigate(`/weather-stations`,);
+        navigate(`${backUrl}`,);
     }
 
     const handleDateFromChange = (date) => {

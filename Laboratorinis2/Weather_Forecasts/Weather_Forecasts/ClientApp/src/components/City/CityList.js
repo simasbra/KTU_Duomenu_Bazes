@@ -28,7 +28,12 @@ export function CityList() {
     }, []);
     
     const handleEdit = (city) => {
-        navigate(`/cities/${city.name}/edit`, { state: { city } });
+        navigate(`/cities/${city.name}/edit`, {
+            state: {
+                city,
+                backUrl: '/cities'
+            }
+        });
     }
 
     const handleDelete = (city) => {
@@ -46,7 +51,11 @@ export function CityList() {
     }
     
     const handleAdd = () => {
-        navigate('/cities/add');
+        navigate('/cities/add', {
+            state: {
+                backUrl: '/cities'
+            }
+        });
     }
     
     const handleView = (city) => {

@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {useLocation} from 'react-router-dom';
 import styled from 'styled-components';
-import {useNavigate} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import {Button, Actions, Input, Header, ActionsContainer, Label} from '../Shared/Components';
 import axios from '../../axiosConfig';
 import {format} from 'date-fns';
@@ -48,7 +47,8 @@ export function WeatherForecastView() {
         navigate(`/weather-forecasts/${forecast.code}/edit`, {
             state: {
                 code: forecast.code,
-                station: forecast.fk_WeatherStationCode
+                station: forecast.fk_WeatherStationCode,
+                backUrl: backUrl,
             }
         })
     }

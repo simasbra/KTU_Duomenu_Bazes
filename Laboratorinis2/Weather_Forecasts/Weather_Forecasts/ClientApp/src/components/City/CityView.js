@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import {useLocation} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import styled from 'styled-components';
-import {useNavigate} from 'react-router-dom';
 import {Button, Actions, Input, Header, ActionsContainer, DeleteButton, Table} from '../Shared/Components';
 import axios from '../../axiosConfig';
 import {format} from 'date-fns';
@@ -11,7 +10,7 @@ export function CityView() {
     const location = useLocation();
     const [city, setCity] = useState(location.state?.city);
     const [forecasts, setForecasts] = useState([]);
-    const backUrl = location.state?.backUrl;
+    const [forecast, setForecast] = useState({});
 
     useEffect(() => {
         const fetchForecasts = () => {
@@ -31,19 +30,42 @@ export function CityView() {
         fetchForecasts();
     }, []);
 
+    const fetchWeatherForecast = () => {
+        axios.get(`api/weatherForecast/cities/${city.country}/${city.name}`)
+            .then(response => {
+                const formattedData = {
+                    ...response.data,
+                    date: format(new Date(response.data.date), 'yyyy-MM-dd'),
+                };
+                setForecast(formattedData);
+            })
+            .catch(error => {
+                console.error('Failed to fetch weather forecast', error);
+            });
+    }
+
     const handleEdit = (city) => {
-        navigate(`/cities/${city.name}/edit`, {state: {city}});
+        fetchWeatherForecast();
+        navigate(`/cities/${city.name}/edit`, {
+            state: {
+                city,
+                backUrl: `/cities/${city.name}`,
+                forecast: forecast
+            }
+        });
     }
 
     const handleCancel = () => {
-        navigate(`${backUrl}`);
+        navigate(`/cities`);
     }
 
     const handleEditForecast = (forecast) => {
         navigate(`/weather-forecasts/${forecast.code}/edit`, {
             state: {
                 code: forecast.code,
-                station: forecast.fk_WeatherStationCode
+                station: forecast.fk_WeatherStationCode,
+                backUrl: `/cities/${city.name}`,
+                city: city
             }
         })
     }
@@ -63,7 +85,13 @@ export function CityView() {
     }
 
     const handleAddForecast = () => {
-        navigate('/weather-forecasts/add');
+        navigate('/weather-forecasts/add',
+            {
+                state: {
+                    city: city,
+                    backUrl: `/cities/${city.name}`
+                }
+            });
     }
 
     const handleViewForecast = (forecast) => {
@@ -163,6 +191,7 @@ const CityContainer = styled.div`
     margin: 0;
     display: grid;
 `;
+
 const ForecastContainer = styled.div`
     padding: 0;
     margin: 0;

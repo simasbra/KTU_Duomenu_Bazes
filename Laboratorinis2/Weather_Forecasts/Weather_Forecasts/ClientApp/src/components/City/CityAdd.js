@@ -1,7 +1,6 @@
 import React from 'react';
-import {useLocation} from 'react-router-dom';
 import styled from 'styled-components';
-import {useNavigate} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import {Button, Actions, Input, Header, ActionsContainer, DatePicker} from '../Shared/Components';
 import axios from '../../axiosConfig';
 import {format} from 'date-fns';
@@ -10,6 +9,7 @@ export function CityAdd() {
     const navigate = useNavigate();
     const location = useLocation();
     const [city, setCity] = React.useState(location.state?.city);
+    const backUrl = location.state?.backUrl;
 
     const handleSave = (city) => {
         if (window.confirm(`Are you sure you want to save ${city.name}?`)) {
@@ -20,7 +20,7 @@ export function CityAdd() {
             })
                 .then(response => {
                     alert('City added successfully');
-                    navigate(`/cities`,);
+                    navigate(`${backUrl}`,);
                 })
                 .catch(error => {
                     console.error('Failed to add the city' + error);
@@ -36,7 +36,7 @@ export function CityAdd() {
     }
 
     const handleCancel = () => {
-        navigate(`/cities`,);
+        navigate(`${backUrl}`,);
     }
 
     const handleDateChange = (date) => {

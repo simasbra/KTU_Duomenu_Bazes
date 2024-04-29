@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {useLocation} from 'react-router-dom';
 import styled from 'styled-components';
-import {useNavigate} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import {Button, Input, Header, ActionsContainer, Label, Select, DatePicker} from '../Shared/Components';
 import axios from '../../axiosConfig';
 import {format} from 'date-fns';
@@ -11,6 +10,9 @@ export function WeatherForecastAdd() {
     const [forecast, setForecast] = useState({});
     const [cities, setCities] = useState([]);
     const [stations, setStations] = useState([]);
+    const backUrl = useLocation().state?.backUrl;
+    const city = useLocation().state?.city;
+    const station = useLocation().state?.station;
 
     useEffect(() => {
         const fetchCities = () => {
@@ -64,7 +66,13 @@ export function WeatherForecastAdd() {
     }
 
     const handleCancel = () => {
-        navigate(`/weather-forecasts`,);
+        navigate(`${backUrl}`, {
+            state: {
+                city: city,
+                station: station
+            }
+        
+        });
     }
     
     const handleSave = (forecast) => {
@@ -76,7 +84,12 @@ export function WeatherForecastAdd() {
             })
                 .then(response => {
                     alert('Weather forecast added successfully');
-                    navigate(`/weather-forecasts`,);
+                    navigate(`${backUrl}`, {
+                        state: {
+                            city: city,
+                            station: station
+                        }
+                    },);
                 })
                 .catch(error => {
                     console.error('Failed to add the weather forecast' + error);

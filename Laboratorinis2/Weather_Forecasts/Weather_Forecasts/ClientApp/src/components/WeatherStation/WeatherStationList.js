@@ -23,7 +23,12 @@ export function WeatherStationList() {
     }, []);
 
     const handleEdit = (station) => {
-        navigate(`/weather-stations/${station.code}/edit`, {state: {code: station.code}});
+        navigate(`/weather-stations/${station.code}/edit`, {
+            state: {
+                code: station.code,
+                backUrl: '/weather-stations'
+            }
+        });
     }
 
     const handleDelete = (station) => {
@@ -45,11 +50,20 @@ export function WeatherStationList() {
     }
 
     const handleAdd = () => {
-        navigate('/weather-stations/add');
+        navigate('/weather-stations/add', {
+            state: {
+                backUrl: '/weather-stations'
+            }
+        });
     }
     
     const handleView = (station) => {
-        navigate(`/weather-stations/${station.code}`, {state: {code: station.code}})
+        navigate(`/weather-stations/${station.code}`, {
+            state: {
+                code: station.code,
+                backUrl: '/weather-stations'
+            }
+        })
     }
 
     return (

@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {useLocation} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import styled from 'styled-components';
-import {useNavigate} from 'react-router-dom';
-import {Button, Input, Header, ActionsContainer, Label} from '../Shared/Components';
+import {Button, Input, Header, ActionsContainer, Label, Table, Actions, DeleteButton} from '../Shared/Components';
 import axios from '../../axiosConfig';
 import {format} from 'date-fns';
 
@@ -12,6 +11,7 @@ export function WeatherStationView() {
     const code = location.state?.code;
     const [station, setStation] = useState({});
     const [status, setStatus] = useState({});
+    const [forecasts, setForecasts] = useState([]);
     const backUrl = location.state?.backUrl;
 
     useEffect(() => {
@@ -40,16 +40,82 @@ export function WeatherStationView() {
                 });
         };
 
+        const fetchForecasts = () => {
+            axios.get(`api/weatherForecast/station/${code}`)
+                .then(response => {
+                    const formattedData = response.data.map(item => ({
+                        ...item,
+                        date: format(new Date(item.date), 'yyyy-MM-dd')
+                    }));
+                    setForecasts(formattedData);
+                })
+                .catch(error => {
+                    console.error('Failed to fetch weather forecasts', error);
+                });
+        };
+
+        fetchForecasts();
         fetchStation();
         fetchOperationalStatus();
     }, []);
 
     const handleEdit = (station) => {
-        navigate(`/weather-stations/${station.code}/edit`, {state: {code: station.code}});
+        navigate(`/weather-stations/${station.code}/edit`, {
+            state: {
+                code: station.code,
+                backUrl: '/weather-stations'
+            }
+        });
     }
 
     const handleCancel = () => {
-        navigate(`${backUrl}`,);
+        navigate(`/weather-stations`,);
+    }
+
+    const handleEditForecast = (forecast) => {
+        navigate(`/weather-forecasts/${forecast.code}/edit`, {
+            state: {
+                code: forecast.code,
+                station: forecast.fk_WeatherStationCode,
+                backUrl: `/weather-station/${station.code}`,
+                forecast: forecast
+            }
+        })
+    }
+
+    const handleDeleteForecast = (forecast) => {
+        if (window.confirm('Are you sure you want to delete this weather forecast?')) {
+            axios.delete(`api/weatherForecast/${forecast.code}`)
+                .then(() => {
+                    window.alert('Weather forecast deleted successfully');
+                    setForecasts(forecasts.filter(item => item.code !== forecast.code));
+                })
+                .catch(error => {
+                    window.alert('Failed to delete weather forecast');
+                    console.error('Failed to delete weather forecast', error);
+                });
+        }
+    }
+
+    const handleAddForecast = (forecast) => {
+        navigate('/weather-forecasts/add',
+            {
+                state: {
+                    station: station,
+                    backUrl: `/weather-stations/${station.code}`
+                }
+            });
+    }
+
+    const handleViewForecast = (forecast) => {
+        navigate(`/weather-forecasts/${forecast.code}`, {
+            state: {
+                code: forecast.code,
+                station: forecast.fk_WeatherStationCode,
+                backUrl: `/weather-stations/${station.code}`,
+                forecast: forecast
+            }
+        })
     }
 
     return (
@@ -83,8 +149,45 @@ export function WeatherStationView() {
                 <Label>Status (working?)</Label>
                 <Input type="text" name="status" value={status?.status} readOnly></Input>
             </StatusContainer>
+            
+            <StationContainer>
+                <Header>Weather Forecast List</Header>
+                <Table>
+                    <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Date</th>
+                        <th>Source</th>
+                        <th>Confidence</th>
+                        <th>City</th>
+                        <th>Weather station</th>
+                        <th style={{textAlign: 'center'}}>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {forecasts.map((forecast) => (
+                        <tr key={forecast.code}>
+                            <td>{forecast.code}</td>
+                            <td>{forecast.date}</td>
+                            <td>{forecast.source}</td>
+                            <td>{forecast.confidence}</td>
+                            <td>{forecast.cityName}</td>
+                            <td>{forecast.weatherStationCode}</td>
+                            <td>
+                                <Actions>
+                                    <Button onClick={() => handleViewForecast(forecast)}>View</Button>
+                                    <Button onClick={() => handleEditForecast(forecast)}>Edit</Button>
+                                    <DeleteButton onClick={() => handleDeleteForecast(forecast)}>Delete</DeleteButton>
+                                </Actions>
+                            </td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </Table>
+            </StationContainer>
 
             <ActionsContainer>
+                <Button onClick={() => handleAddForecast()}>Add Weather Forecast</Button>
                 <Button onClick={() => handleEdit(station)}>Edit</Button>
                 <Button onClick={() => handleCancel()}>Back</Button>
             </ActionsContainer>
@@ -107,6 +210,12 @@ const StationContainer = styled.div`
 `;
 
 const StatusContainer = styled.div`
+    padding: 0;
+    margin: 0;
+    display: grid;
+`;
+
+const ForecastContainer = styled.div`
     padding: 0;
     margin: 0;
     display: grid;

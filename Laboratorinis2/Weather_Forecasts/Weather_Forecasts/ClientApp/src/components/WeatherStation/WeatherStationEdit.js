@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {useLocation} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import styled from 'styled-components';
-import {useNavigate} from 'react-router-dom';
 import {
     Button,
     Input,
@@ -23,6 +22,7 @@ export function WeatherStationEdit() {
     const [station, setStation] = useState({});
     const [status, setStatus] = useState({});
     const [cities, setCities] = useState([]);
+    const backUrl = location.state?.backUrl;
 
     useEffect(() => {
         const fetchStation = () => {
@@ -97,7 +97,7 @@ export function WeatherStationEdit() {
             })
                 .then(response => {
                     alert('Weather station updated successfully');
-                    navigate(`/weather-stations`,);
+                    navigate(`${backUrl}`,);
                 })
                 .catch(error => {
                     console.error('Failed to update the operational status' + error);
@@ -139,7 +139,7 @@ export function WeatherStationEdit() {
     }
 
     const handleCancel = () => {
-        navigate(`/weather-stations`,);
+        navigate(`${backUrl}`,);
     }
 
     const handleDateFromChange = (date) => {

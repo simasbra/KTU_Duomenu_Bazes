@@ -28,7 +28,13 @@ export function WeatherForecastList() {
     }, []);
     
     const handleEdit = (forecast) => {
-        navigate(`/weather-forecasts/${forecast.code}/edit`, {state: {code: forecast.code, station: forecast.weatherStationCode}})
+        navigate(`/weather-forecasts/${forecast.code}/edit`, {
+            state: {
+                code: forecast.code,
+                station: forecast.weatherStationCode,
+                backUrl: '/weather-forecasts'
+            }
+        })
     }
     
     const handleDelete = (forecast) => {
@@ -46,11 +52,21 @@ export function WeatherForecastList() {
     }
     
     const handleAdd = () => {
-        navigate('/weather-forecasts/add');
+        navigate('/weather-forecasts/add', {
+            state: {
+                backUrl: '/weather-forecasts'
+            }
+        });
     }
     
     const handleView = (forecast) => {
-        navigate(`/weather-forecasts/${forecast.code}`, {state: {code: forecast.code, station: forecast.weatherStationCode}})
+        navigate(`/weather-forecasts/${forecast.code}`, {
+            state: {
+                code: forecast.code,
+                station: forecast.weatherStationCode,
+                backUrl: '/weather-forecasts'
+            }
+        })
     }
     
     return (
