@@ -86,6 +86,51 @@ public class WeatherForecastController : ControllerBase
     }
 
     /// <summary>
+    /// Finds weather forecasts by city
+    /// </summary>
+    /// <param name="cityName">City Name to find</param>
+    /// <param name="cityCountry">City Country to find</param>
+    /// <returns>Weather forecasts if found</returns>
+    [HttpGet("city/{cityCountry}/{cityName}")]
+    public IActionResult FindCityWeatherForecast(string cityName, string cityCountry)
+    {
+        Console.WriteLine(DateTime.Now + " FindCityWeatherForecast: got request.");
+        var forecasts = _weatherForecastRepository.FindByCity(cityName, cityCountry);
+
+        if (forecasts == null || forecasts.Count == 0)
+        {
+            Console.WriteLine(DateTime.Now + "FindCityWeatherForecast: No weather forecasts found.");
+            return NotFound("No weather forecasts found");
+        }
+
+        Console.WriteLine(DateTime.Now + " FindCityWeatherForecast: " + forecasts.Count + " weather forecasts found.");
+
+        return Ok(forecasts);
+    }
+    
+    /// <summary>
+    /// Fidns weather forecasts by station
+    /// </summary>
+    /// <param name="stationCode">Station code to find</param>
+    /// <returns>Weather forecasts if found</returns>
+    [HttpGet("station/{stationCode}")]
+    public IActionResult FindStationWeatherForecast(string stationCode)
+    {
+        Console.WriteLine(DateTime.Now + " FindStationWeatherForecast: got request.");
+        var forecasts = _weatherForecastRepository.FindByStation(stationCode);
+
+        if (forecasts == null || forecasts.Count == 0)
+        {
+            Console.WriteLine(DateTime.Now + "FindStationWeatherForecast: No weather forecasts found.");
+            return NotFound("No weather forecasts found");
+        }
+
+        Console.WriteLine(DateTime.Now + " FindStationWeatherForecast: " + forecasts.Count + " weather forecasts found.");
+
+        return Ok(forecasts);
+    }
+
+    /// <summary>
     /// Adds a new weather forecast
     /// </summary>
     /// <param name="forecast">Forecast to add</param>

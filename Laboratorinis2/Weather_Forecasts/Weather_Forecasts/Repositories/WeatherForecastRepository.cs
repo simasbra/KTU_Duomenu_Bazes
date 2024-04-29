@@ -57,7 +57,7 @@ public class WeatherForecastRepository
     }
     
     /// <summary>
-    /// Finds a weather forecast by code in the database
+    /// Finds a weather forecast by weather forecast code in the database
     /// </summary>
     /// <param name="code">Code to find</param>
     /// <returns>Weather forecast if successful</returns>
@@ -72,6 +72,72 @@ public class WeatherForecastRepository
         if (drc.Count > 0)
         {
             var result = Sql.MapOne<WeatherForecast>(drc, (dre, e) =>
+            {
+                e.Code = dre.From<string>("Code");
+                e.Date = dre.From<DateTime>("Date");
+                e.Source = dre.From<string>("Source");
+                e.Confidence = dre.From<decimal>("Confidence");
+                e.fk_CityName = dre.From<string>("fk_CityName");
+                e.fk_CityCountry = dre.From<string>("fk_CityCountry");
+                e.fk_WeatherStationCode = dre.From<string>("fk_Weather_StationCode");
+            });
+            
+            return result;
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Finds weather forecasts by city = in the database
+    /// </summary>
+    /// <param name="cityName">City name to find</param>
+    /// <param name="cityCountry">City Country</param>
+    /// <returns>List of Weather Forecasts if successful</returns>
+    public List<WeatherForecast> FindByCity(string cityName, string cityCountry)
+    {
+        var query = $"SELECT * FROM `{Config.TblPrefix}Weather_Forecasts` WHERE fk_CityName = ?cityName AND fk_CityCountry = ?cityCountry ORDER BY Date DESC";
+        var drc = Sql.Query(query, args =>
+        {
+            args.Add("?cityName", cityName);
+            args.Add("?cityCountry", cityCountry);
+        });
+
+        if (drc.Count > 0)
+        {
+            var result = Sql.MapAll<WeatherForecast>(drc, (dre, e) =>
+            {
+                e.Code = dre.From<string>("Code");
+                e.Date = dre.From<DateTime>("Date");
+                e.Source = dre.From<string>("Source");
+                e.Confidence = dre.From<decimal>("Confidence");
+                e.fk_CityName = dre.From<string>("fk_CityName");
+                e.fk_CityCountry = dre.From<string>("fk_CityCountry");
+                e.fk_WeatherStationCode = dre.From<string>("fk_Weather_StationCode");
+            });
+            
+            return result;
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Finds weather forecasts by weather station code in the database
+    /// </summary>
+    /// <param name="code">Weather station code to find</param>
+    /// <returns>List of Weather Forecasts if successful</returns>
+    public List<WeatherForecast> FindByStation(string code)
+    {
+        var query = $"SELECT * FROM `{Config.TblPrefix}Weather_Forecasts` WHERE fk_Weather_StationCode = ?code ORDER BY Date DESC";
+        var drc = Sql.Query(query, args =>
+        {
+            args.Add("?code", code);
+        });
+        
+        if (drc.Count > 0)
+        {
+            var result = Sql.MapAll<WeatherForecast>(drc, (dre, e) =>
             {
                 e.Code = dre.From<string>("Code");
                 e.Date = dre.From<DateTime>("Date");

@@ -13,6 +13,7 @@ export function WeatherForecastView() {
     const stationCode = location.state?.station;
     const [station, setStation] = useState({});
     const [forecast, setForecast] = useState({});
+    const backUrl = location.state?.backUrl;
 
     useEffect(() => {
         const fetchStation = () => {
@@ -44,10 +45,20 @@ export function WeatherForecastView() {
     }, []);
 
     const handleEdit = (station) => {
+        navigate(`/weather-forecasts/${forecast.code}/edit`, {
+            state: {
+                code: forecast.code,
+                station: forecast.fk_WeatherStationCode
+            }
+        })
     }
 
     const handleCancel = () => {
-        navigate(`/weather-forecasts`,);
+        navigate(`${backUrl}`, {
+            state: {
+                city: location.state?.city
+            }
+        });
     }
 
     return (

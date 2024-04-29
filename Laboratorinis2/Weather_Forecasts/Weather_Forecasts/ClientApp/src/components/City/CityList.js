@@ -50,7 +50,12 @@ export function CityList() {
     }
     
     const handleView = (city) => {
-        navigate(`/cities/${city.name}`, { state: { city } });
+        navigate(`/cities/${city.name}`, {
+            state: {
+                city,
+                backUrl: '/cities'
+            }
+        });
     }
     
     return (

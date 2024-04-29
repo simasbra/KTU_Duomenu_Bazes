@@ -12,6 +12,7 @@ export function WeatherStationView() {
     const code = location.state?.code;
     const [station, setStation] = useState({});
     const [status, setStatus] = useState({});
+    const backUrl = location.state?.backUrl;
 
     useEffect(() => {
         const fetchStation = () => {
@@ -48,7 +49,7 @@ export function WeatherStationView() {
     }
 
     const handleCancel = () => {
-        navigate(`/weather-stations`,);
+        navigate(`${backUrl}`,);
     }
 
     return (
