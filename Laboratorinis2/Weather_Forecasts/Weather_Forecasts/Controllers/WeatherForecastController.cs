@@ -33,7 +33,7 @@ public class WeatherForecastController : ControllerBase
         
         if (forecasts == null || forecasts.Count == 0)
         {
-            Console.WriteLine(DateTime.Now + "GetWeatherForecastsTable: No weather forecasts found.");
+            Console.WriteLine(DateTime.Now + " GetWeatherForecastsTable: No weather forecasts found.");
         return NotFound("No weather forecasts found");
         }
 
@@ -54,7 +54,7 @@ public class WeatherForecastController : ControllerBase
         
         if (forecasts == null || forecasts.Count == 0)
         {
-            Console.WriteLine(DateTime.Now + "GetWeatherForecastsList: No weather forecasts found.");
+            Console.WriteLine(DateTime.Now + " GetWeatherForecastsList: No weather forecasts found.");
             return NotFound("No weather forecasts found");
         }
 
@@ -99,7 +99,7 @@ public class WeatherForecastController : ControllerBase
 
         if (forecasts == null || forecasts.Count == 0)
         {
-            Console.WriteLine(DateTime.Now + "FindCityWeatherForecast: No weather forecasts found.");
+            Console.WriteLine(DateTime.Now + " FindCityWeatherForecast: No weather forecasts found.");
             return NotFound("No weather forecasts found");
         }
 
@@ -121,7 +121,7 @@ public class WeatherForecastController : ControllerBase
 
         if (forecasts == null || forecasts.Count == 0)
         {
-            Console.WriteLine(DateTime.Now + "FindStationWeatherForecast: No weather forecasts found.");
+            Console.WriteLine(DateTime.Now + " FindStationWeatherForecast: No weather forecasts found.");
             return NotFound("No weather forecasts found");
         }
 

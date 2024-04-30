@@ -7,37 +7,78 @@ import {format} from 'date-fns';
 
 export function WeatherForecastEdit() {
     const navigate = useNavigate();
-    const [forecast, setForecast] = useState({});
+    const [forecast, setForecast] = useState();
     const [cities, setCities] = useState([]);
     const [stations, setStations] = useState([]);
     const backUrl = useLocation().state?.backUrl;
     const city = useLocation().state?.city;
+    const station = useLocation().state?.station;
+    const code = useLocation().state?.code;
 
     useEffect(() => {
         const fetchCities = () => {
-            axios.get('api/city')
-                .then(response => {
-                    const formattedCities = response.data.map(city => ({
-                        ...city,
-                        foundingDate: format(new Date(city.foundingDate), 'yyyy-MM-dd')
-                    }));
-                    setCities(formattedCities);
-                })
-                .catch(error => {
-                    console.error('Failed to fetch cities', error);
-                });
-        };
-        
-        const fetchStations = () => {
-            axios.get('api/weatherStation')
-                .then(response => {
-                    setStations(response.data);
-                })
-                .catch(error => {
-                    console.error('Failed to fetch weather stations', error);
-                });
+            if (!city) {
+                axios.get('api/city')
+                  .then(response => {
+                      const formattedCities = response.data.map(city => ({
+                          ...city,
+                          foundingDate: format(new Date(city.foundingDate), 'yyyy-MM-dd')
+                      }));
+                      setCities(formattedCities);
+                  })
+                  .catch(error => {
+                      console.error('Failed to fetch cities', error);
+                  });
+            } else {
+                axios.get(`api/city/${city.name}/${city.country}`)
+                  .then(response => {
+                      const formattedCity = {
+                          ...response.data,
+                          foundingDate: format(new Date(response.data.foundingDate), 'yyyy-MM-dd')
+                      };
+                      setCities([formattedCity]);
+                  })
+                  .catch(error => {
+                      console.error('Failed to fetch city', error);
+                  });
+            }
         };
 
+        const fetchStations = () => {
+            if (!station) {
+                axios.get('api/weatherStation')
+                  .then(response => {
+                      setStations(response.data);
+                  })
+                  .catch(error => {
+                      console.error('Failed to fetch weather stations', error);
+                  });
+            } else {
+                axios.get(`api/weatherStation/${station}`)
+                  .then(response => {
+                      setStations([response.data]);
+                  })
+                  .catch(error => {
+                      console.error('Failed to fetch weather station', error);
+                  });
+            }
+        };
+        
+        const fetchWeatherForecast = () => {
+            axios.get(`api/weatherForecast/${code}`)
+                .then(response => {
+                     const formattedData = {
+                         ...response.data,
+                        date: format(new Date(response.data.date), 'yyyy-MM-dd'),
+                    };
+                    setForecast(formattedData);
+                })
+                .catch(error => {
+                    console.error('Failed to fetch weather forecast', error);
+                });
+        }
+        
+        fetchWeatherForecast()
         fetchStations();
         fetchCities();
     }, []);
@@ -68,7 +109,8 @@ export function WeatherForecastEdit() {
     const handleCancel = () => {
         navigate(`${backUrl}`, {
             state: {
-                city: city
+                city: city,
+                code: station
             }
         });
     }
@@ -84,7 +126,8 @@ export function WeatherForecastEdit() {
                     alert('Weather forecast added successfully');
                     navigate(`${backUrl}`, {
                         state: {
-                            city: city
+                            city: city,
+                            station: station
                         }
                     });
                 })

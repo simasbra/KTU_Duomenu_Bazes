@@ -48,7 +48,7 @@ export function WeatherForecastView() {
             state: {
                 code: forecast.code,
                 station: forecast.fk_WeatherStationCode,
-                backUrl: backUrl,
+                backUrl: backUrl
             }
         })
     }
@@ -56,7 +56,8 @@ export function WeatherForecastView() {
     const handleCancel = () => {
         navigate(`${backUrl}`, {
             state: {
-                city: location.state?.city
+                city: location.state?.city,
+                code: station.code
             }
         });
     }

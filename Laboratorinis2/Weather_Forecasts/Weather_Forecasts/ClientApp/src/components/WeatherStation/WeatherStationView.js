@@ -12,7 +12,6 @@ export function WeatherStationView() {
     const [station, setStation] = useState({});
     const [status, setStatus] = useState({});
     const [forecasts, setForecasts] = useState([]);
-    const backUrl = location.state?.backUrl;
 
     useEffect(() => {
         const fetchStation = () => {
@@ -63,7 +62,7 @@ export function WeatherStationView() {
         navigate(`/weather-stations/${station.code}/edit`, {
             state: {
                 code: station.code,
-                backUrl: '/weather-stations'
+                backUrl: `/weather-stations/${station.code}`
             }
         });
     }
@@ -76,8 +75,8 @@ export function WeatherStationView() {
         navigate(`/weather-forecasts/${forecast.code}/edit`, {
             state: {
                 code: forecast.code,
-                station: forecast.fk_WeatherStationCode,
-                backUrl: `/weather-station/${station.code}`,
+                station: station.code,
+                backUrl: `/weather-stations/${station.code}`,
                 forecast: forecast
             }
         })
@@ -101,7 +100,7 @@ export function WeatherStationView() {
         navigate('/weather-forecasts/add',
             {
                 state: {
-                    station: station,
+                    station: station.code,
                     backUrl: `/weather-stations/${station.code}`
                 }
             });
@@ -113,7 +112,6 @@ export function WeatherStationView() {
                 code: forecast.code,
                 station: forecast.fk_WeatherStationCode,
                 backUrl: `/weather-stations/${station.code}`,
-                forecast: forecast
             }
         })
     }
@@ -210,12 +208,6 @@ const StationContainer = styled.div`
 `;
 
 const StatusContainer = styled.div`
-    padding: 0;
-    margin: 0;
-    display: grid;
-`;
-
-const ForecastContainer = styled.div`
     padding: 0;
     margin: 0;
     display: grid;

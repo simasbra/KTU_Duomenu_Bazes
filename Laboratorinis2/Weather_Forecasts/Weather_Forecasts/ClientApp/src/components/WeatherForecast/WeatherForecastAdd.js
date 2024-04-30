@@ -15,28 +15,53 @@ export function WeatherForecastAdd() {
     const station = useLocation().state?.station;
 
     useEffect(() => {
+        console.log(city);
         const fetchCities = () => {
-            axios.get('api/city')
-                .then(response => {
-                    const formattedCities = response.data.map(city => ({
-                        ...city,
-                        foundingDate: format(new Date(city.foundingDate), 'yyyy-MM-dd')
-                    }));
-                    setCities(formattedCities);
-                })
-                .catch(error => {
-                    console.error('Failed to fetch cities', error);
-                });
+            if (!city) {
+                axios.get('api/city')
+                  .then(response => {
+                      const formattedCities = response.data.map(city => ({
+                          ...city,
+                          foundingDate: format(new Date(city.foundingDate), 'yyyy-MM-dd')
+                      }));
+                      setCities(formattedCities);
+                  })
+                  .catch(error => {
+                      console.error('Failed to fetch cities', error);
+                  });
+            } else {
+                axios.get(`api/city/${city.name}/${city.country}`)
+                  .then(response => {
+                      const formattedCity = {
+                          ...response.data,
+                          foundingDate: format(new Date(response.data.foundingDate), 'yyyy-MM-dd')
+                      };
+                      setCities([formattedCity]);
+                  })
+                  .catch(error => {
+                      console.error('Failed to fetch city', error);
+                  });
+            }
         };
         
         const fetchStations = () => {
-            axios.get('api/weatherStation')
-                .then(response => {
-                    setStations(response.data);
-                })
-                .catch(error => {
-                    console.error('Failed to fetch weather stations', error);
-                });
+            if (!station) {
+                axios.get('api/weatherStation')
+                  .then(response => {
+                      setStations(response.data);
+                  })
+                  .catch(error => {
+                      console.error('Failed to fetch weather stations', error);
+                  });
+            } else {
+                axios.get(`api/weatherStation/${station}`)
+                  .then(response => {
+                      setStations([response.data]);
+                  })
+                  .catch(error => {
+                      console.error('Failed to fetch weather station', error);
+                  });
+            }
         };
 
         fetchStations();
@@ -69,9 +94,8 @@ export function WeatherForecastAdd() {
         navigate(`${backUrl}`, {
             state: {
                 city: city,
-                station: station
+                code: station
             }
-        
         });
     }
     
@@ -87,7 +111,7 @@ export function WeatherForecastAdd() {
                     navigate(`${backUrl}`, {
                         state: {
                             city: city,
-                            station: station
+                            code: station
                         }
                     },);
                 })
