@@ -158,7 +158,7 @@ export function WeatherStationView() {
                         <th>Source</th>
                         <th>Confidence</th>
                         <th>City</th>
-                        <th>Weather station</th>
+                        <th>Weather Station</th>
                         <th style={{textAlign: 'center'}}>Actions</th>
                     </tr>
                     </thead>
@@ -169,8 +169,8 @@ export function WeatherStationView() {
                             <td>{forecast.date}</td>
                             <td>{forecast.source}</td>
                             <td>{forecast.confidence}</td>
-                            <td>{forecast.cityName}</td>
-                            <td>{forecast.weatherStationCode}</td>
+                            <td>{forecast.fk_CityName}</td>
+                            <td>{forecast.fk_CityCountry}</td>
                             <td>
                                 <Actions>
                                     <Button onClick={() => handleViewForecast(forecast)}>View</Button>
