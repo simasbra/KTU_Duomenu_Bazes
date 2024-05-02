@@ -11,7 +11,45 @@ export function CityEdit() {
     const [city, setCity] = React.useState(location.state?.city);
     const backUrl = location.state?.backUrl;
 
+    const validate = (city) => {
+        let errors = {};
+        if (!city) {
+            errors.name = "City information is required.";
+            return errors;
+        }
+        if (!city.name)
+            errors = "City name is required.";
+        if (!city.country)
+            errors.country = "Country is required.";
+        if (!city.population || isNaN(city.population) || parseInt(city.population) <= 0)
+            errors.population = "Population must be a positive number.";
+        if (!city.latitude || isNaN(city.latitude))
+            errors.latitude = "Latitude must be a valid number.";
+        if (!city.longitude || isNaN(city.longitude))
+            errors.longitude = "Longitude must be a valid number.";
+        if (!city.elevation || isNaN(city.elevation))
+            errors.elevation = "Elevation must be a valid number.";
+        if (!city.averageAnnualTemperature || isNaN(city.averageAnnualTemperature))
+            errors.averageAnnualTemperature = "Average annual temperature must be a valid number.";
+        if (!city.averageAnnualPrecipitation || isNaN(city.averageAnnualPrecipitation))
+            errors.averageAnnualPrecipitation = "Average annual precipitation must be a valid number.";
+        if (!city.timeZone)
+            errors.timeZone = "Time zone is required.";
+        if (!city.foundingDate)
+            errors.foundingDate = "Founding date is required.";
+        if (city.foundingDate && new Date(city.foundingDate) > new Date())
+            errors.foundingDate = "Founding date cannot be in the future.";
+
+        return errors;
+    };
+
     const handleSave = (city) => {
+        const errors = validate(city);
+        if (Object.keys(errors).length > 0) {
+            alert(`${Object.values(errors).join("\n")}`);
+            return;
+        }
+        
         if (window.confirm(`Are you sure you want to save ${city.name}?`)) {
             axios.put(`api/city/${encodeURIComponent(city.name)}/${encodeURIComponent(city.country)}`, city, {
                 headers: {

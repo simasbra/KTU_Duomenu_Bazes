@@ -82,8 +82,57 @@ export function WeatherForecastEdit() {
         fetchStations();
         fetchCities();
     }, []);
-    
 
+    const validate = (forecast) => {
+        let errors = {}
+        if (!forecast) {
+            errors = "Forecast is required.";
+            return errors;
+        }
+        if (!forecast.code)
+            errors.code = "Forecast code is required.";
+        if (!forecast.source)
+            errors.source = "Source is required.";
+        if (!forecast.confidence || isNaN(forecast.confidence) || parseFloat(forecast.confidence) <= 0 || parseFloat(forecast.confidence) >= 100)
+            errors.confidence = "Confidence must be a number between 0 and 100.";
+        if (!forecast.date)
+            errors.date = "Date is required.";
+        if (!forecast.fk_WeatherStationCode)
+            errors.station = "Weather station is required.";
+        if (!forecast.fk_CityName || !forecast.fk_CityCountry)
+            errors.city = "City is required.";
+
+        return errors;
+    };
+
+    const handleSave = (forecast) => {
+        const errors = validate(forecast);
+        if (Object.keys(errors).length > 0) {
+            alert(`${Object.values(errors).join("\n")}`);
+            return;
+        }
+
+        if (window.confirm(`Are you sure you want to save ${forecast.code}?`)) {
+            axios.post(`api/weatherForecast/insert`, forecast, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => {
+                    alert('Weather forecast added successfully');
+                    navigate(`${backUrl}`, {
+                        state: {
+                            city: city,
+                            station: station
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Failed to add the weather forecast' + error);
+                });
+        }
+    }
+    
     const handleInput = (event) => {
         if (event.target.name === 'city') {
             const [fk_CityName, fk_CityCountry] = event.target.value.split(', ');
@@ -104,7 +153,6 @@ export function WeatherForecastEdit() {
             });
         }
     }
-    
 
     const handleCancel = () => {
         navigate(`${backUrl}`, {
@@ -113,28 +161,6 @@ export function WeatherForecastEdit() {
                 code: station
             }
         });
-    }
-    
-    const handleSave = (forecast) => {
-        if (window.confirm(`Are you sure you want to save ${forecast.code}?`)) {
-            axios.post(`api/weatherForecast/insert`, forecast, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-                .then(response => {
-                    alert('Weather forecast added successfully');
-                    navigate(`${backUrl}`, {
-                        state: {
-                            city: city,
-                            station: station
-                        }
-                    });
-                })
-                .catch(error => {
-                    console.error('Failed to add the weather forecast' + error);
-                });
-        }
     }
     
     const handleDateChange = (date) => {

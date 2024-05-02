@@ -69,15 +69,44 @@ export function WeatherStationEdit() {
         fetchCities();
     }, []);
 
-    const handleSave = (station, status) => {
-        if (status.status === 'true') {
-            status.status = true;
-            status.dateTo = null;
-        } else if (status.status === 'false') {
-            status.status = false;
+    const validate = (station) => {
+        let errors = {};
+        if (!station) {
+            errors = "Station is required.";
+            return errors;
         }
-        if (status.dateTo === '') {
-            status.dateTo = null;
+        if (!station.code)
+            errors.code = "Station code is required.";
+        if (!station.managingOrganization)
+            errors.managingOrganization = "Managing organization is required.";
+        if (!station.latitude || isNaN(station.latitude))
+            errors.latitude = "Valid latitude is required.";
+        if (!station.longitude || isNaN(station.longitude))
+            errors.longitude = "Valid longitude is required.";
+        if (!station.elevation || isNaN(station.elevation))
+            errors.elevation = "Valid elevation is required.";
+        if (!station.type)
+            errors.type = "Station type is required.";
+        if (!station.fk_CityName || !station.fk_CityCountry)
+            errors.city = "City is required.";
+
+        if (!status) {
+            errors = "Operational status is required.";
+            return errors;
+        }
+        if (!status.dateFrom)
+            errors.dateFrom = "Start date of operational status is required.";
+        if (status.status === false && !status.dateTo)
+            errors.dateTo = "End date is required when the status is not working.";
+
+        return errors;
+    };
+
+    const handleSave = (station, status) => {
+        const errors = validate(station);
+        if (Object.keys(errors).length > 0) {
+            alert(Object.values(errors).join('\n'));
+            return;
         }
         
         if (window.confirm(`Are you sure you want to save ${station.code}?`)) {
@@ -107,11 +136,11 @@ export function WeatherStationEdit() {
 
     const handleStationInput = (event) => {
         if (event.target.name === 'city') {
-            const [fk_cityName, fk_cityCountry] = event.target.value.split(', ');
+            const [fk_CityName, fk_CityCountry] = event.target.value.split(', ');
             setStation({
                 ...station,
-                fk_cityName,
-                fk_cityCountry
+                fk_CityName,
+                fk_CityCountry
             });
         } else {
             setStation({
@@ -177,7 +206,7 @@ export function WeatherStationEdit() {
                 <Input type="text" name="type" value={station?.type || ''}
                        onChange={handleStationInput}></Input>
                 <Label>City</Label>
-                <Select name="city" value={station?.city} onChange={handleStationInput}>
+                <Select name="city" value={station?.fk_CityName + ', ' + station.fk_CityCountry} onChange={handleStationInput}>
                     {cities.map((city) => (
                         <option key={city.name + ', ' + city.country} value={city.name + ', ' + city.country}>
                             {city.name + ', ' + city.country}
