@@ -177,4 +177,28 @@ public class WeatherForecastController : ControllerBase
             return BadRequest("Error deleting weather forecast");
         }
     }
+
+    /// <summary>
+    /// Updates a weather forecast
+    /// </summary>
+    /// <param name="forecast">Weather forecast to update</param>
+    /// <returns>Ok if successful</returns>
+    [HttpPut("{code}")]
+    public IActionResult UpdateWeatherForecast(WeatherForecast forecast)
+    {
+        Console.WriteLine("UpdateWeatherForecast: got request.");
+        try
+        {
+            _weatherForecastRepository.Update(forecast);
+            Console.WriteLine("UpdateWeatherForecast: Weather forecast updated.");
+
+            return Ok("Weather forecast updated");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("UpdateWeatherForecast: Error updating weather forecast: " + e.Message);
+
+            return BadRequest("Error updating weather forecast");
+        }
+    }
 }

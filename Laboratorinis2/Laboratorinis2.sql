@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 25, 2024 at 02:30 PM
+-- Generation Time: May 02, 2024 at 03:27 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -385,7 +385,8 @@ INSERT INTO `Operational_Statuses` (`Date_from`, `Date_to`, `Status`, `id_Operat
 ('1999-05-02', '2007-04-25', 0, 17, 'WS17'),
 ('2012-05-24', '2022-06-27', 0, 18, 'WS18'),
 ('2002-04-26', '2015-08-02', 0, 19, 'WS19'),
-('2009-11-24', '2017-08-04', 1, 20, 'WS0');
+('2009-11-24', '2017-08-04', 1, 20, 'WS0'),
+('2001-01-10', NULL, 1, 24, 'Station1');
 
 -- --------------------------------------------------------
 
@@ -1465,6 +1466,10 @@ CREATE TABLE `Weather_Forecasts` (
 --
 
 INSERT INTO `Weather_Forecasts` (`Code`, `Date`, `Source`, `Confidence`, `fk_CityName`, `fk_CityCountry`, `fk_Weather_StationCode`) VALUES
+('1', '2001-01-01', '1', 1.00, 'City11', 'Country1', 'WS1'),
+('1234', '2024-05-01', '123', 12.00, 'City12', 'Country2', 'WS10'),
+('ars', '2024-04-10', 'ars', 100.00, 'City6', 'Country1', 'WS3'),
+('ars', '2024-04-11', 'ars', 100.00, 'City12', 'Country2', 'WS14'),
 ('FC0', '2014-03-25', 'Source0', 51.69, 'City2', 'Country2', 'WS19'),
 ('FC1', '2008-12-22', 'Source1', 52.26, 'City2', 'Country2', 'WS19'),
 ('FC1000', '2013-05-20', 'Source0', 61.07, 'City0', 'Country0', 'WS10'),
@@ -1564,7 +1569,8 @@ INSERT INTO `Weather_Forecasts` (`Code`, `Date`, `Source`, `Confidence`, `fk_Cit
 ('FC9001', '2024-05-26', 'Source1', 50.52, 'City14', 'Country4', 'WS17'),
 ('FC9002', '2013-03-30', 'Source2', 93.93, 'City14', 'Country4', 'WS17'),
 ('FC9003', '1993-03-29', 'Source0', 96.93, 'City14', 'Country4', 'WS17'),
-('FC9004', '2006-07-17', 'Source1', 66.79, 'City14', 'Country4', 'WS17');
+('FC9004', '2006-07-17', 'Source1', 66.79, 'City14', 'Country4', 'WS17'),
+('ssss', '2024-04-24', 's', 10.00, 'miestas', 'salis', 'Station1');
 
 -- --------------------------------------------------------
 
@@ -1588,7 +1594,8 @@ CREATE TABLE `Weather_Stations` (
 --
 
 INSERT INTO `Weather_Stations` (`Code`, `Managing_organization`, `Latitude`, `Longitude`, `Elevation`, `Type`, `fk_CityName`, `fk_CityCountry`) VALUES
-('WS0', 'Organization023', 80.000000, -148.074561, 2957, 'Type1', 'miestas', 'salis'),
+('Station1', 'mantinga', 1.000000, 1.000000, 10, 'Oru', 'miestas', 'salis'),
+('WS0', 'Organization023', 80.000000, -148.074561, 2957, 'Type1', 'City15', 'Country0'),
 ('WS1', 'Org1', -41.037905, -161.972881, 248, 'Type2', 'City4', 'Country4'),
 ('WS10', 'Org0', 23.199293, 60.198439, 2323, 'Type2', 'City7', 'Country2'),
 ('WS11', 'Org1', -23.957397, 175.923522, 1781, 'Type3', 'City14', 'Country4'),
@@ -1988,7 +1995,7 @@ ALTER TABLE `Moonlight`
 -- AUTO_INCREMENT for table `Operational_Statuses`
 --
 ALTER TABLE `Operational_Statuses`
-  MODIFY `id_Operational_Status` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id_Operational_Status` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `Precipitations`

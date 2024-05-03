@@ -102,7 +102,7 @@ export function WeatherStationEdit() {
     }
 
     const handleStationInput = (event) => {
-        if (event.target.name === 'city') {
+        if (event.target.name === 'city' && event.target.value !== "") {
             const [fk_CityName, fk_CityCountry] = event.target.value.split(', ');
             setStation({
                 ...station,
@@ -176,6 +176,7 @@ export function WeatherStationEdit() {
                        onChange={handleStationInput}></Input>
                 <Label>City</Label>
                 <Select name="city" value={station?.fk_CityName + ', ' + station.fk_CityCountry} onChange={handleStationInput}>
+                    <option value="">Select a city</option>
                     {cities.map((city) => (
                         <option key={city.name + city.country} value={city.name + ', ' + city.country}>
                             {city.name + ', ' + city.country}

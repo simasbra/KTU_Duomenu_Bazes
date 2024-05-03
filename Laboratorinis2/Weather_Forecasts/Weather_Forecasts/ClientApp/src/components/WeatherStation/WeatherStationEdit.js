@@ -135,7 +135,7 @@ export function WeatherStationEdit() {
     }
 
     const handleStationInput = (event) => {
-        if (event.target.name === 'city') {
+        if (event.target.name === 'city' && event.target.value !== "") {
             const [fk_CityName, fk_CityCountry] = event.target.value.split(', ');
             setStation({
                 ...station,

@@ -93,11 +93,11 @@ export function WeatherForecastEdit() {
             errors.code = "Forecast code is required.";
         if (!forecast.source)
             errors.source = "Source is required.";
-        if (!forecast.confidence || isNaN(forecast.confidence) || parseFloat(forecast.confidence) <= 0 || parseFloat(forecast.confidence) >= 100)
+        if (!forecast.confidence || isNaN(forecast.confidence) || parseFloat(forecast.confidence) < 0 || parseFloat(forecast.confidence) > 100)
             errors.confidence = "Confidence must be a number between 0 and 100.";
         if (!forecast.date)
             errors.date = "Date is required.";
-        if (!forecast.fk_WeatherStationCode)
+        if (!forecast.fk_Weather_StationCode)
             errors.station = "Weather station is required.";
         if (!forecast.fk_CityName || !forecast.fk_CityCountry)
             errors.city = "City is required.";
@@ -113,7 +113,7 @@ export function WeatherForecastEdit() {
         }
 
         if (window.confirm(`Are you sure you want to save ${forecast.code}?`)) {
-            axios.post(`api/weatherForecast/insert`, forecast, {
+            axios.put(`api/weatherForecast/${forecast.code}`, forecast, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -134,17 +134,17 @@ export function WeatherForecastEdit() {
     }
     
     const handleInput = (event) => {
-        if (event.target.name === 'city') {
+        if (event.target.name === 'city' && event.target.value !== "") {
             const [fk_CityName, fk_CityCountry] = event.target.value.split(', ');
             setForecast({
                 ...forecast,
                 fk_CityName,
                 fk_CityCountry
             });
-        } else if (event.target.name === 'station') {
+        } else if (event.target.name === 'station' && event.target.value !== "") {
             setForecast({
                 ...forecast,
-                fk_WeatherStationCode: event.target.value
+                fk_Weather_StationCode: event.target.value
             });
         } else {
             setForecast({
@@ -173,7 +173,7 @@ export function WeatherForecastEdit() {
     return (
         <Container>
             <ForecastContainer>
-                <Header>Add Weather Forecast</Header>
+                <Header>Edit {forecast?.code} Weather Forecast</Header>
                 <Label>Code</Label>
                 <Input type="text" name="code" value={forecast?.code} onChange={handleInput}></Input>
                 <Label>Date</Label>

@@ -77,7 +77,7 @@ export function WeatherForecastAdd() {
             errors.code = "Forecast code is required.";
         if (!forecast.source)
             errors.source = "Source is required.";
-        if (!forecast.confidence || isNaN(forecast.confidence) || parseFloat(forecast.confidence) <= 0 || parseFloat(forecast.confidence) >= 100)
+        if (!forecast.confidence || isNaN(forecast.confidence) || parseFloat(forecast.confidence) < 0 || parseFloat(forecast.confidence) > 100)
             errors.confidence = "Confidence must be a number between 0 and 100.";
         if (!forecast.date)
             errors.date = "Date is required.";
@@ -118,14 +118,14 @@ export function WeatherForecastAdd() {
     }
     
     const handleInput = (event) => {
-        if (event.target.name === 'city') {
+        if (event.target.name === 'city' && event.target.value !== "") {
             const [fk_CityName, fk_CityCountry] = event.target.value.split(', ');
             setForecast({
                 ...forecast,
                 fk_CityName,
                 fk_CityCountry
             });
-        } else if (event.target.name === 'station') {
+        } else if (event.target.name === 'station' && event.target.value !== "") {
             setForecast({
                 ...forecast,
                 fk_WeatherStationCode: event.target.value
@@ -174,6 +174,7 @@ export function WeatherForecastAdd() {
                 <Input type="text" name="confidence" value={forecast?.confidence} onChange={handleInput}></Input>
                 <Label>Weather Station</Label>
                 <Select type="text" name="station" value={forecast?.station} onChange={handleInput}>
+                    <option value="">Select a station</option>
                     {stations.map((station) => (
                         <option key={station.code} value={station.code}>
                             {station.code}
@@ -182,6 +183,7 @@ export function WeatherForecastAdd() {
                 </Select>
                 <Label>City</Label>
                 <Select type="text" name="city" value={forecast?.city} onChange={handleInput}>
+                    <option value="">Select a city</option>
                     {cities.map((city) => (
                         <option key={city.name + city.country} value={city.name + ', ' + city.country}>
                             {city.name + ', ' + city.country}

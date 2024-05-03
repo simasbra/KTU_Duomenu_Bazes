@@ -188,4 +188,25 @@ public class WeatherForecastRepository
             args.Add("?code", code);
         });
     }
+    
+    /// <summary>
+    /// Updates a weather forecast in the database
+    /// </summary>
+    /// <param name="forecast">Forecast to update</param>
+    public void Update(WeatherForecast forecast)
+    {
+        var query = $@"UPDATE `{Config.TblPrefix}Weather_Forecasts`
+            SET Date = ?date, Source = ?source, Confidence = ?confidence, fk_CityName = ?fk_CityName, fk_CityCountry = ?fk_CityCountry, fk_Weather_StationCode = ?fk_Weather_StationCode
+            WHERE Code = ?code";
+        Sql.Update(query, args =>
+        {
+            args.Add("?code", forecast.Code);
+            args.Add("?date", forecast.Date);
+            args.Add("?source", forecast.Source);
+            args.Add("?confidence", forecast.Confidence);
+            args.Add("?fk_CityName", forecast.fk_CityName);
+            args.Add("?fk_CityCountry", forecast.fk_CityCountry);
+            args.Add("?fk_Weather_StationCode", forecast.fk_WeatherStationCode);
+        });
+    }
 }
