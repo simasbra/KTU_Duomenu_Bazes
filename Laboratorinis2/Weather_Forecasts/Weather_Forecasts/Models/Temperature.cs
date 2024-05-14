@@ -11,22 +11,32 @@ public class Temperature
     public int fk_TimeStampId { get; set; }
 }
 
-public class TemperatureList
+public class TemperatureReport
 {
-    // Temperature
-    public decimal AverageTemperature { get; set; }
-    public decimal FeelsLike { get; set; }
     // TimeStamp
     public DateTime Date { get; set; }
     public TimeSpan Time { get; set; }
+    
     // City
-    public string CityName { get; set; }
-    public string CityCountry { get; set; }
-    //WeatherForecast
-    public string WeatherForecastCode { get; set; }
-    public decimal WeatherForecastConfidence { get; set; }
-    public string WeatherForecastSource { get; set; }
+    public string City { get; set; }
+    
     // WeatherStation
-    public string WeatherStationCode { get; set; }
-    public string ManagingOrganization { get; set; }
+    public string StationCode { get; set; }
+    
+    // OperationalStatus
+    public DateTime OperationalFrom { get; set; }
+    public DateTime OperationalUntil { get; set; }
+    
+    // WeatherForecast
+    public string ForecastCode { get; set; }
+    public decimal Confidence { get; set; }
+    
+    // Temperature
+    public decimal Temperature { get; set; }
+    public int FeelsLike { get; set; }
+
+    public decimal AvgTempThisDay { get; set; }
+    public decimal MaxTempThisDay { get; set; }
+    public decimal MinTempThisDay { get; set; }
+    public int TempRecordCount { get; set; }
 }

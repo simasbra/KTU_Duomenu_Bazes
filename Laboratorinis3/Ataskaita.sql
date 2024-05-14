@@ -1,10 +1,10 @@
-SELECT 
-    stamp.Date,
+SELECT
+    DATE_FORMAT(stamp.Date, '%Y-%m-%d') AS Date,
     TIME_FORMAT(stamp.Time, '%H:%i') AS Time,
     UPPER(city.Name) AS City,
     station.Code AS StationCode,
-    status.Date_from AS OperationalFrom,
-    IF(status.Status = 1, 'Still working', status.Date_to) AS OperationalUntil,
+    DATE_FORMAT(status.Date_from, '%Y-%m-%d') AS OperationalFrom,
+    IF(status.Status = 1, DATE_FORMAT('2999-12-31', '%Y-%m-%d'), status.Date_to) AS OperationalUntil,
     forecast.Code AS ForecastCode,
     forecast.Confidence,
     temp.Average AS Temperature,
