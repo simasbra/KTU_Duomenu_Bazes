@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import {useLocation, useNavigate} from 'react-router-dom';
-import {Button, Actions, Input, Header, ActionsContainer, DatePicker} from '../Shared/Components';
+import {Button, Input, Header, ActionsContainer, DatePicker} from '../Shared/Components';
 import axios from '../../axiosConfig';
 import {format} from 'date-fns';
 

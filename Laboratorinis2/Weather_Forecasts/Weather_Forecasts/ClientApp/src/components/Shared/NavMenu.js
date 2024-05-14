@@ -22,6 +22,9 @@ export class NavMenu extends Component {
                     <NavItem>
                         <StyledLink to="/weather-forecasts">Weather Forecasts</StyledLink>
                     </NavItem>
+                    <NavItem>
+                        <StyledLink to="/temperature-reports">Temperature Reports</StyledLink>
+                    </NavItem>
                 </NavList>
             </Navbar>
         );

@@ -116,14 +116,7 @@ export function WeatherStationEdit() {
             });
         }
     }
-
-    const handleStatusInput = (event) => {
-        setStatus({
-            ...status,
-            [event.target.name]: event.target.value
-        });
-    }
-
+    
     const handleStatusCheck = (event) => {
     if (event.target.name === 'status') {
         setStatus({
