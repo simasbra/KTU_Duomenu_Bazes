@@ -35,7 +35,7 @@ public class TemperaturesRepository
     /// <param name="dateTo">Date to</param>
     /// <param name="confidence">Confidence</param>
     /// <returns>Filtered list of temperatures</returns>
-    public List<TemperatureReport> GetFilteredList(string city, DateTime dateFrom, DateTime dateTo, decimal confidence)
+    public List<TemperatureReport> GetFilteredList(string city, DateTime dateFrom, DateTime dateTo, int confidence)
     {
         var query = $@"
             SELECT
@@ -80,6 +80,7 @@ public class TemperaturesRepository
                 status.Date_from, status.Date_to, status.Status, forecast.Code, forecast.Confidence
             ORDER BY
                 stamp.Date, stamp.Time";
+        
         var drc = Sql.Query(query, args =>
         {
             args.Add("?dateFrom", dateFrom);
