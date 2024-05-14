@@ -83,10 +83,10 @@ weather_forecasts_data = [
         "Date": generate_date().strftime("%Y-%m-%d"),
         "Source": f"Source{j % 3}",
         "Confidence": round(random.uniform(50, 100), 2),
-        "fk_CityName": city["Name"],
-        "fk_CityCountry": city["Country"],
+        "fk_CityName": ws["fk_CityName"],
+        "fk_CityCountry": ws["fk_CityCountry"],
         "fk_Weather_StationCode": ws["Code"]
-    } for i, (city, ws) in enumerate(zip(random.choices(cities_data, k=num_rows), random.choices(weather_stations_data, k=num_rows)))
+    } for i, (ws) in enumerate(random.choices(weather_stations_data, k=num_rows))
     for j in range(forecast_multiplier)  # Create 5 forecasts for each base entry
 ]
 
