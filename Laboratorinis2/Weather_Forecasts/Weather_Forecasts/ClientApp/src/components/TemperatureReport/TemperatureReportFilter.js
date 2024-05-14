@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import axios from '../../axiosConfig';
-import WeatherForecastEdit from '../WeatherForecast/WeatherForecastEdit';
 
 export function TemperatureReportFilter() {
     
@@ -12,8 +11,7 @@ export function TemperatureReportFilter() {
     )
 }
 
-export default WeatherForecastEdit;
-
+export default TemperatureReportFilter;
 
 const Container = styled.div`
     padding: 0 10px;

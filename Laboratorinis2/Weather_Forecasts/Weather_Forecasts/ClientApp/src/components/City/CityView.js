@@ -8,7 +8,7 @@ import {format} from 'date-fns';
 export function CityView() {
     const navigate = useNavigate();
     const location = useLocation();
-    const city = useState(location.state?.city);
+    const [city] = useState(location.state?.city);
     const [forecasts, setForecasts] = useState([]);
     const [forecast, setForecast] = useState({});
 
