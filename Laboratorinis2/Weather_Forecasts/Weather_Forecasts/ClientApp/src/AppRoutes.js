@@ -13,6 +13,7 @@ import WeatherForecastList from './components/WeatherForecast/WeatherForecastLis
 import WeatherForecastView from './components/WeatherForecast/WeatherForecastView';
 import WeatherForecastAdd from './components/WeatherForecast/WeatherForecastAdd';
 import WeatherForecastEdit from './components/WeatherForecast/WeatherForecastEdit';
+import TemperatureReportFilter from './components/TemperatureReport/TemperatureReportFilter';
 
 const AppRoutes = [
     {
@@ -83,6 +84,11 @@ const AppRoutes = [
     {
         path: "/weather-forecasts/add",
         element: <WeatherForecastAdd/>
+    },
+    // Temperature Reports:
+    {
+        path: "/temperature-reports",
+        element: <TemperatureReportFilter/>
     }
 ];
 

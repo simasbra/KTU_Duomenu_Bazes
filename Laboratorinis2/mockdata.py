@@ -51,19 +51,21 @@ cities_data = [
     } for i in range(num_rows)
 ]
 
-# Generating data for Weather_Stations
-weather_stations_data = [
-    {
-        "Code": f"WS{i}",
-        "Managing_organization": f"Org{i % 10}",
-        "Latitude": round(random.uniform(-90, 90), 6),
-        "Longitude": round(random.uniform(-180, 180), 6),
-        "Elevation": random.randint(0, 3000),
-        "Type": random.choice(["Type1", "Type2", "Type3"]),
-        "fk_CityName": city["Name"],
-        "fk_CityCountry": city["Country"]
-    } for i, city in enumerate(random.choices(cities_data, k=num_rows))
-]
+# Generating data for Weather_Stations with random number of stations per city
+weather_stations_data = []
+for city in cities_data:
+    num_stations = random.randint(1, 5)  # Each city will have 1 to 5 weather stations
+    for _ in range(num_stations):
+        weather_stations_data.append({
+            "Code": f"WS{len(weather_stations_data)}",
+            "Managing_organization": f"Org{random.randint(0, 9)}",
+            "Latitude": round(random.uniform(-90, 90), 6),
+            "Longitude": round(random.uniform(-180, 180), 6),
+            "Elevation": random.randint(0, 3000),
+            "Type": random.choice(["Type1", "Type2", "Type3"]),
+            "fk_CityName": city["Name"],
+            "fk_CityCountry": city["Country"]
+        })
 
 # Generate data for Operational_Statuses, linked to Weather Stations
 operational_statuses_data = [
@@ -76,19 +78,20 @@ operational_statuses_data = [
     } for i, ws in enumerate(weather_stations_data)
 ]
 
-# Generating data for Weather_Forecasts
-weather_forecasts_data = [
-    {
-        "Code": f"FC{1000*i+j}",  # Unique code generation
-        "Date": generate_date().strftime("%Y-%m-%d"),
-        "Source": f"Source{j % 3}",
-        "Confidence": round(random.uniform(50, 100), 2),
-        "fk_CityName": city["Name"],
-        "fk_CityCountry": city["Country"],
-        "fk_Weather_StationCode": ws["Code"]
-    } for i, (city, ws) in enumerate(zip(random.choices(cities_data, k=num_rows), random.choices(weather_stations_data, k=num_rows)))
-    for j in range(forecast_multiplier)  # Create 5 forecasts for each base entry
-]
+# Generating data for Weather_Forecasts with random number of forecasts per weather station
+weather_forecasts_data = []
+for ws in weather_stations_data:
+    num_forecasts = random.randint(1, 20)  # Each weather station will have 1 to 20 weather forecasts
+    for _ in range(num_forecasts):
+        weather_forecasts_data.append({
+            "Code": f"FC{len(weather_forecasts_data)}",
+            "Date": generate_date(2023, 2024).strftime("%Y-%m-%d"),
+            "Source": f"Source{random.randint(0, 2)}",
+            "Confidence": round(random.uniform(50, 100), 2),
+            "fk_CityName": ws["fk_CityName"],
+            "fk_CityCountry": ws["fk_CityCountry"],
+            "fk_Weather_StationCode": ws["Code"]
+        })
 
 # Generate data for Records, linked to Weather Forecasts
 records_data = [
@@ -104,18 +107,19 @@ records_data = [
     } for forecast in random.choices(weather_forecasts_data, k=num_rows)
 ]
 
-# Generate data for Time_Stamps, linked to Weather_Forecasts
+# Generate data for Time_Stamps, linked to Weather_Forecasts with random number of time stamps per forecast
 id_gen = id_generator()
-time_stamps_data = [
-    {
-        "id_Time_Stamp": next(id_gen),
-        "Date": forecast["Date"],
-        "Time": generate_time(),
-        "fk_Weather_ForecastCode": forecast["Code"],
-        "fk_Weather_ForecastDate": forecast["Date"]
-    } for i, forecast in enumerate(weather_forecasts_data)
-    for j in range(3)  # Generate multiple time stamps per forecast
-]
+time_stamps_data = []
+for forecast in weather_forecasts_data:
+    num_time_stamps = random.randint(1, 10) # Each forecast will have 1 to 10 time stamps
+    for _ in range(num_time_stamps):
+        time_stamps_data.append({
+            "id_Time_Stamp": next(id_gen),
+            "Date": forecast["Date"],
+            "Time": generate_time(),
+            "fk_Weather_ForecastCode": forecast["Code"],
+            "fk_Weather_ForecastDate": forecast["Date"]
+        })
 
 # Generate data for Temperatures with random inclusion
 id_gen = id_generator()
@@ -158,7 +162,6 @@ pressures_data = [
     } for ts in time_stamps_data if maybe_include(0.5)
 ]
 
-
 # Generate data for Cloudiness with random inclusion
 id_gen = id_generator()
 cloudiness_data = [
@@ -187,7 +190,6 @@ precipitations_data = [
         "fk_Time_Stamp": ts["id_Time_Stamp"]
     } for ts in time_stamps_data if maybe_include(0.6)
 ]
-
 
 # Generate data for Sunlight
 id_gen = id_generator()

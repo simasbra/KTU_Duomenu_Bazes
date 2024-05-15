@@ -9,7 +9,7 @@ export function Home() {
     return (
         <Container>
             <Header>Welcome to the Weather Forecasts App</Header>
-            <p>An app for P175B602 Duomenų bazės module second laboratory work.</p>
+            <p>Web application for "P175B602 Duomenų bazės" module second and third laboratory works.</p>
             <ul>
                 <li>
                     <Link onClick={() => navigate('/cities')}>Cities</Link>
@@ -19,6 +19,9 @@ export function Home() {
                 </li>
                 <li>
                     <Link onClick={() => navigate('/weather-forecasts')}>Weather Forecasts</Link>
+                </li>
+                <li>
+                    <Link onClick={() => navigate('/temperature-reports')}>Temperature Reports</Link>
                 </li>
             </ul>
         </Container>
@@ -38,4 +41,8 @@ const Link = styled.a`
     color: #007bff;
     text-decoration: none;
     cursor: pointer;
+    
+    &:hover {
+        text-decoration: underline;
+    }
 `;
