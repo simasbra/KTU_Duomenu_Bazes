@@ -9,10 +9,12 @@ import TemperatureListTable from './components/TemperatureListTable';
 export function TemperatureReportFilter() {
 
     const [cities, setCities] = useState([]);
+    
     const [city, setCity] = useState();
     const [dateFrom, setDateFrom] = useState();
     const [dateTo, setDateTo] = useState();
     const [confidence, setConfidence] = useState();
+    
     const [isFiltered, setIsFiltered] = useState(false);
     const [temperatureReport, setTemperatureReport] = useState([]);
     const [showList, setShowList] = useState(false);
