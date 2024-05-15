@@ -15,7 +15,7 @@ public class TemperatureReportList
 {
     // TimeStamp
     public DateTime Date { get; set; }
-    public TimeSpan Time { get; set; }
+    public DateTime Time { get; set; }
 
     // City
     public string City { get; set; }
@@ -41,6 +41,11 @@ public class TemperatureReportList
     public int TempRecordCount { get; set; }
 }
 
+/// <summary>
+/// Hierarchical temperature report
+/// Hierarchy:
+/// City -> WeatherStation -> WeatherForecast -> TimeStamp & AgregatedTemperature-> Temperature
+/// </summary>
 public class TemperatureReport
 {
     public string City { get; set; }
@@ -71,7 +76,7 @@ public class TemperatureReport
     public class TimeStamp
     {
         public DateTime Date { get; set; }
-        public TimeSpan Time { get; set; }
+        public DateTime Time { get; set; }
         public List<Temperature> Temperatures { get; set; }
     }
 
@@ -88,5 +93,68 @@ public class TemperatureReport
         public decimal MinTempThisDay { get; set; }
         public int TempRecordCount { get; set; }
 
+    }
+}
+
+public class TemperatureReportService
+{
+    /// <summary>
+    /// Converts a flat list of temperature reports to a hierarchical list
+    /// </summary>
+    /// <param name="flatList">Flat list TemperatureReportList</param>
+    /// <returns>Hierarchical TemperatureReport list </returns>
+    public List<TemperatureReport> GetHierarchicalTemperatureReport(List<TemperatureReportList> flatList)
+    {
+        var groupedByCity = flatList
+            .GroupBy(x => x.City)
+            .Select(cityGroup => new TemperatureReport
+            {
+                City = cityGroup.Key,
+                WeatherStations = cityGroup
+                    .GroupBy(x => x.StationCode)
+                    .Select(stationGroup => new TemperatureReport.WeatherStation
+                    {
+                        Code = stationGroup.Key,
+                        OperationalStatus = new TemperatureReport.OperationalStatus
+                        {
+                            OperationalFrom = stationGroup.First().OperationalFrom,
+                            OperationalUntil = stationGroup.First().OperationalUntil
+                        },
+                        Forecasts = stationGroup
+                            .GroupBy(x => x.ForecastCode)
+                            .Select(forecastGroup => new TemperatureReport.WeatherForecast
+                            {
+                                Code = forecastGroup.Key,
+                                Confidence = forecastGroup.First().Confidence,
+                                AgregatedTemperature = new TemperatureReport.AgregatedTemperature
+                                {
+                                    AvgTempThisDay = forecastGroup.First().AvgTempThisDay,
+                                    MaxTempThisDay = forecastGroup.First().MaxTempThisDay,
+                                    MinTempThisDay = forecastGroup.First().MinTempThisDay,
+                                    TempRecordCount = forecastGroup.First().TempRecordCount
+                                },
+                                TimeStamps = forecastGroup
+                                    .GroupBy(x => new { x.Date, x.Time })
+                                    .Select(timestampGroup => new TemperatureReport.TimeStamp
+                                    {
+                                        Date = timestampGroup.Key.Date,
+                                        Time = timestampGroup.Key.Time,
+                                        Temperatures = timestampGroup
+                                            .Select(temp => new TemperatureReport.Temperature
+                                            {
+                                                Average = temp.Temperature,
+                                                FeelsLike = temp.FeelsLike
+                                            })
+                                            .ToList()
+                                    })
+                                    .ToList()
+                            })
+                            .ToList()
+                    })
+                    .ToList()
+            })
+            .ToList();
+
+        return groupedByCity;
     }
 }

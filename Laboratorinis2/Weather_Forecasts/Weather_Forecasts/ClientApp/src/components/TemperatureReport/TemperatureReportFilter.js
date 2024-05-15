@@ -12,6 +12,7 @@ export function TemperatureReportFilter() {
     const [dateTo, setDateTo] = useState();
     const [confidence, setConfidence] = useState();
     const [isFiltered, setIsFiltered] = useState(false);
+    const [temperatureReport, setTemperatureReport] = useState([]);
 
     useEffect(() => {
         const fetchCities = () => {
@@ -30,9 +31,40 @@ export function TemperatureReportFilter() {
 
         fetchCities();
     }, []);
+
+    const fetchTemperatureReport = () => {
+        axios.get(`api/temperature/report/object/city=${city}&dateFrom=${dateFrom}&dateTo=${dateTo}&confidence=${confidence}`)
+            .then(response => {
+                setTemperatureReport(response.data);
+            })
+            .catch(error => {
+                console.error('Failed to fetch temperature report', error);
+            });
+    }
+    
+    const validate = () => {
+        let errors = {};
+        if (!city)
+            errors.city = "City is required.";
+        if (!dateFrom)
+            errors.dateFrom = "Date from is required.";
+        if (!dateTo)
+            errors.dateTo = "Date to is required.";
+        if (!confidence)
+            errors.confidence = "Confidence is required.";
+        
+        return errors;
+    }
     
     const handleFilter = () => {
+        const errors = validate(city);
+        if (Object.keys(errors).length > 0) {
+            alert(`${Object.values(errors).join("\n")}`);
+            return;
+        }
+        
         setIsFiltered(true);
+        fetchTemperatureReport();
     }
     
     const handleInput = (event) => {
@@ -81,6 +113,14 @@ export function TemperatureReportFilter() {
                     className="input"
                     popperPlacement="bottom-start"
                 />
+                <Label>Confidence</Label>
+                <input
+                    type="range"
+                    min="1"
+                    max="100"
+                    value={confidence}
+                    onChange={(event) => setConfidence(event.target.value)}
+                />
                 <ActionsContainer>
                     <Button onClick={handleFilter}>Filter</Button>
                 </ActionsContainer>
@@ -123,6 +163,7 @@ const InputsContainer = styled.div`
     padding: 0 0 20px 0;
     margin: 0;
     display: grid;
+    width: 32rem;
 `;
 
 const TableContainer = styled.div`

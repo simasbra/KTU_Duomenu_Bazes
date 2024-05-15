@@ -97,7 +97,7 @@ public class TemperaturesRepository
         var result = Sql.MapAll<TemperatureReportList>(drc, (dre, e) =>
         {
             e.Date = dre.From<DateTime>("Date");
-            e.Time = dre.From<TimeSpan>("Time");
+            e.Time = dre.From<DateTime>("Time");
             e.City = dre.From<string>("City");
             e.StationCode = dre.From<string>("StationCode");
             e.OperationalFrom = dre.From<DateTime>("OperationalFrom");
