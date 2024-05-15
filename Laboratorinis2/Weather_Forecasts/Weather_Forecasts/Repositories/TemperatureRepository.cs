@@ -35,7 +35,7 @@ public class TemperaturesRepository
     /// <param name="dateTo">Date to</param>
     /// <param name="confidence">Confidence</param>
     /// <returns>Filtered list of temperatures</returns>
-    public List<TemperatureReport> GetFilteredList(string city, DateTime dateFrom, DateTime dateTo, int confidence)
+    public List<TemperatureReportList> GetFilteredList(string city, DateTime dateFrom, DateTime dateTo, int confidence)
     {
         var query = $@"
             SELECT
@@ -94,7 +94,7 @@ public class TemperaturesRepository
             return null;
         }
 
-        var result = Sql.MapAll<TemperatureReport>(drc, (dre, e) =>
+        var result = Sql.MapAll<TemperatureReportList>(drc, (dre, e) =>
         {
             e.Date = dre.From<DateTime>("Date");
             e.Time = dre.From<TimeSpan>("Time");

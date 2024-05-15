@@ -11,6 +11,7 @@ export function TemperatureReportFilter() {
     const [dateFrom, setDateFrom] = useState();
     const [dateTo, setDateTo] = useState();
     const [confidence, setConfidence] = useState();
+    const [isFiltered, setIsFiltered] = useState(false);
 
     useEffect(() => {
         const fetchCities = () => {
@@ -31,7 +32,7 @@ export function TemperatureReportFilter() {
     }, []);
     
     const handleFilter = () => {
-        
+        setIsFiltered(true);
     }
     
     const handleInput = (event) => {
@@ -84,10 +85,28 @@ export function TemperatureReportFilter() {
                     <Button onClick={handleFilter}>Filter</Button>
                 </ActionsContainer>
             </InputsContainer>
-            
-            <Table>
-                
-            </Table>
+
+            {isFiltered && (
+                <TableContainer>
+                    <h3>Report of temperatures for {city} between {dateFrom} and {dateTo}</h3>
+                    <Table>
+                        <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>City</th>
+                            <th>Station code</th>
+                            <th>Operational from</th>
+                            <th>Operational until</th>
+                            <th>Forecast code</th>
+                            <th>Confidence</th>
+                            <th>Temperature</th>
+                            <th>Feels like</th>
+                        </tr>
+                        </thead>
+                    </Table>
+                </TableContainer>
+            )}
         </Container>
     )
 }
@@ -101,6 +120,12 @@ const Container = styled.div`
 `;
 
 const InputsContainer = styled.div`
+    padding: 0 0 20px 0;
+    margin: 0;
+    display: grid;
+`;
+
+const TableContainer = styled.div`
     padding: 0 0 20px 0;
     margin: 0;
     display: grid;

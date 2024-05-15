@@ -20,11 +20,19 @@ public class TemperatureReportController : ControllerBase
         _weatherStationRepository = new TemperaturesRepository();
     }
     
-    [HttpGet("report/city={city}&dateFrom={dateFrom}&dateTo={dateTo}&confidence={confidence}")]
-    public IActionResult GetTemperatureReport(string city, DateTime dateFrom, DateTime DateTo, int confidence)
+    /// <summary>
+    /// Gets a temperature report list
+    /// </summary>
+    /// <param name="city">City to filter</param>
+    /// <param name="dateFrom">Date from to filter</param>
+    /// <param name="dateTo">Date to to filter</param>
+    /// <param name="confidence">Confidence to filter</param>
+    /// <returns>Temperature report as list</returns>
+    [HttpGet("report/list/city={city}&dateFrom={dateFrom}&dateTo={dateTo}&confidence={confidence}")]
+    public IActionResult GetTemperatureReportList(string city, DateTime dateFrom, DateTime dateTo, int confidence)
     {
         Console.WriteLine(DateTime.Now + " GetTemperatureReport: got request.");
-        var temperatures = _weatherStationRepository.GetList();
+        var temperatures = _weatherStationRepository.GetFilteredList(city, dateFrom, dateTo, confidence);
         
         if (temperatures == null || temperatures.Count == 0)
         {
