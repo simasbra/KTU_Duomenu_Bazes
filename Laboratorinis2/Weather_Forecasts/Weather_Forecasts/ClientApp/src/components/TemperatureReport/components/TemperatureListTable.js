@@ -15,12 +15,10 @@ const TemperatureHierarchyTable = ({ data }) => {
                 <td>{report.time.slice(11, 16)}</td>
                 <td>{report.temperature}</td>
                 <td>{report.feelsLike}</td>
-                <td>
-                    Average: {report.avgTempThisDay},
-                    Maximum: {report.maxTempThisDay},
-                    Minimum: {report.minTempThisDay},
-                    Record count: {report.tempRecordCount}
-                </td>
+                <td>{report.avgTempThisDay}</td>
+                <td>{report.maxTempThisDay}</td>
+                <td>{report.minTempThisDay}</td>
+                <td>{report.tempRecordCount}</td>
             </tr>
         ))}
         </tbody>

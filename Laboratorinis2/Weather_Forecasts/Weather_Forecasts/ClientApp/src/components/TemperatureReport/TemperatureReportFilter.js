@@ -189,6 +189,14 @@ export function TemperatureReportFilter() {
                                 <th>Time</th>
                                 <th>Temperature</th>
                                 <th>Feels like</th>
+                                {showList && (
+                                    <>
+                                        <th>AvgTempThisDay</th>
+                                        <th>MaxTempThisDay</th>
+                                        <th>MinTempThisDay</th>
+                                        <th>TempRecordCount</th>
+                                    </>
+                                )}
                             </tr>
                         </thead>
                         {!showList && (
